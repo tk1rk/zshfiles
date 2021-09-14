@@ -1,0 +1,45 @@
+                                                                                                         
+                                                                                                         
+###############################                                                                          
+# EXPORT ENVIRONMENT VARIABLE #                                                                          
+###############################                                                                          
+#!/bin/zsh                                                                                               
+                                                                                                         
+alias up='sudo apt update -y'                                                                                       
+alias aa='sudo apt autoremove -y'                                                                                   
+alias ai='sudo apt install -y'                                                                                      
+alias ar='sudo apt remove --purge -y'                                                                               
+alias as='sudo apt-cache search'                                                                                    
+alias rm='rm -rf'                                                                                                   
+alias chx='chmod +x'                                                                                                
+alias chr='sudo chown -R root:root'                                                                                 
+alias cht='sudo chown -R tay:tay'                                                                                   
+alias ..='cd ../'                                                                                                   
+alias ...='cd ../../'                                                                                               
+alias ....='cd ../../../'                                                                                           
+alias a2='aria2c -s16 -x32'                                                                                         
+alias l='exa -la --color=always --color-scale --icons'                                                              
+alias lc='colorls -lA --gs --sd --dark'                                                                             
+alias ip='curl ifconfig.me'                                                                                         
+alias ez='exec zsh'                                                                                                 
+alias za='$EDITOR $HOME /.aliases'                                                                                  
+alias zf='$EDITOR $HOME/.functions'                                                                                 
+alias zrc='$EDITOR $HOME/.zshrc'                                                                                    
+#git                                                                                                                
+alias gs='git status'                                                                                               
+alias ga='git add'                                                                                                  
+alias gp='git push'                                                                                                 
+alias gpo='git push origin'                                                                                         
+alias gtd='git tag --delete'                                                                                        
+alias gtdr='git tag --delete origin'                                                                                
+alias gr='git branch -r'                                                                                            
+alias gplo='git pull origin'                                                                                        
+alias gb='git branch '                                                                                              
+alias gc='git commit'                                                                                               
+alias gd='git diff'                                                                                                 
+alias gco='git checkout '                                                                                           
+alias gl='git log'                                                                                                  
+alias gr='git remote'                                                                                               
+alias grs='git remote show'                                                                                         
+alias glo='git log --pretty="oneline"'                                                                              
+alias glol='git log --graph --oneline --decorate'
