@@ -1,0 +1,34 @@
+shell = "zsh"
+
+[plugins]
+
+[plugins.fzf-tab]
+github = "Aloxaf/fzf-tab"
+
+[plugins.fzf-fasd]
+github = "wookayin/fzf-fasd"
+
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+
+[plugins.history-search-multi-word]
+github = "psprint/history-search-multi-word"
+
+[plugins.powerlevel10k]
+github = "romkatv/powerlevel10k"
+
+[plugins.zsh-256color]
+github = "chrissicool/zsh-256color"
+
+[plugins.zsh-async]
+github = "mafredri/zsh-async"
+
+
+[plugins.fast-syntax-highlighting]
+github = "zdharma/fast-syntax-highlighting"
+
+[plugins.zsh-history-search-multi-word]
+github = "zsh-users/zsh-history-substring-search"
