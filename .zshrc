@@ -5,7 +5,7 @@ prepend_to_path \
 	"${HOME}"/.local/bin \
 	"${basedir}"/bin
 
-mkdir -p ~/.cache/{go,node,zsh}
+
 fpath=(/usr/local/share/zsh-completions ~/.cache/zsh/zfunc $fpath)
 export LESSHISTFILE=${HOME}/.cache/lesshst
 export EDITOR=nvim PAGER=less MANPAGER=less
@@ -14,6 +14,22 @@ export VISUAL=nvim PAGER=less MANPAGER=less
 export HISTFILE="$ZDOTDIR/.zhistory"    # History filepath
 export HISTSIZE=10000                   # Maximum events for internal history
 export SAVEHIST=10000                   # Maximum events in history file
+
+zstyle ':completion:::::' completer _complete _approximate
+
+zstyle ':completion:*:approximate:*' max-errors 2
+
+setopt append_history share_history histignorealldups
+
+setopt autocd && /tmp
+
+export TERM="xterm-256color"
+
+eval "$(sheldon source)"
+
+export LC_ALL=en_US.UTF-8
+
+export LANG=en_US.UTF-8
 
 
 eval '$(sheldon source)'
@@ -30,7 +46,7 @@ bindkey -e
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^xe' edit-command-line
-bindkey '^x^e' edit-command-line
+
  
 autoload -U select-word-style
 select-word-style bash
@@ -122,5 +138,8 @@ if [ "$TERM" = "linux" ]; then
 	clear
 fi
 
+autoload -Uz compinit; compinit; 
+
+_comp_options+=(globdots;
 
 neofetch
