@@ -7,6 +7,9 @@
 # Alias's to change the directory
 alias web='cd /var/www/html'
 
+# Podman
+alias docker='podman'
+
 # Alias's to mount ISO files
 # mount -o loop /home/NAMEOFISO.iso /home/ISOMOUNTDIR/
 # umount /home/NAMEOFISO.iso
