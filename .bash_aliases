@@ -1,11 +1,14 @@
+#######################################################
 # MACHINE SPECIFIC ALIAS'S
 #######################################################
-
 # Alias's for SSH
 # alias SERVERNAME='ssh YOURWEBSITE.com -l USERNAME -p PORTNUMBERHERE'
-
 # Alias's to change the directory
 alias web='cd /var/www/html'
+# Alias's to mount ISO files
+# mount -o loop /home/NAMEOFISO.iso /home/ISOMOUNTDIR/
+# umount /home/NAMEOFISO.iso
+
 
 # Podman
 alias docker='podman'
