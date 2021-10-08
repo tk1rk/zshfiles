@@ -44,6 +44,10 @@ shopt -s checkwinsize
 shopt -s histappend
 PROMPT_COMMAND='history -a'
 
+# Term
+export TERM=xterm-256color
+export CLICOLOR=1
+
 # dircolors
 force_color_prompt=yes
 use_color=true
@@ -90,10 +94,6 @@ export LANG=en_US.UTF-8
 export EDITOR=nvim
 export VISUAL=nvim
 alias nv='nvim'
-
-# Term
-export TERM=xterm-256color
-export CLICOLOR=1
 
 # Cargo
 source $HOME/.cargo/env
