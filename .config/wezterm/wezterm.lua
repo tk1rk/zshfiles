@@ -1,9 +1,14 @@
 local wezterm = require 'wezterm';
 
+-- The filled in variant of the < symbol
+local SOLID_LEFT_ARROW = utf8.char(0xe0b2)
+
+-- The filled in variant of the > symbol
+local SOLID_RIGHT_ARROW = utf8.char(0xe0b0)
 
 return {
-  exit_behavior = "Hold",
-  color_scheme = "Batman",
+  exit_behavior = "NeverPrompt",
+  color_scheme = "Flat",
   default_prog = {
     "/usr/local/bin/zsh", "-l"
   },
@@ -24,104 +29,74 @@ return {
     {
       italic = false,
       bold = false,
-      font = wezterm.font("MesloLGS NF"),
+      font = wezterm.font_with_fallback({"MesloLGS NF"},{foreground=""}),
     },
     {
       italic = true,
       bold = false,
-      font = wezterm.font("MesloLGS NF"),
+      font = wezterm.font_with_fallback("MesloLGS NF"),{foreground=""}), 
     },
     {
       italic = false,
       bold = true,
-      font = wezterm.font("MesloLGS NF"),
+      font = wezterm.font_with_fallback("MesloLGS NF"),{foreground=""}),
     },
     {
       italic = true,
       bold = true,
-      font = wezterm.font(MesloLGS NF"),
+      font = wezterm.font_with_fallback("MesloLGS NF"),{foreground=""}),
     },
   },
-
-   local wezterm = require('wezterm')
-local mytable = require("lib/mystdlib").mytable
-local theme = require('theme')
-local configuration = require('configuration')
-
-function font_with_fallback(name, params)
-    local names = {name, "VictorMono Nerd Font Mono Bold Oblique", "Noto Color Emoji" , "JoyPixels"}
-    return wezterm.font_with_fallback(names, params)
-end
-
-local cfg_misc = {
-    -- OpenGL for GPU acceleration, Software for CPU
-    front_end = "OpenGL",
-
-    -- No updates, bleeding edge only
-    check_for_updates = false,
-
-
-    -- Font Stuff
-    font = font_with_fallback("VictorMono Nerd Font Mono" , {bold = true , italic = true}),
-    font_rules = {
-        {
-            italic = true,
-            intensity="Bold",
-            font = font_with_fallback("VictorMono Nerd Font Mono", {bold = true , italic = true})
-        }, {
-            italic = true,
-            intensity = "Bold",
-            font = font_with_fallback("VictorMono Nerd Font Mono",
-                                      {bold = true, italic = true})
-        },
-        {
-            intensity = "Bold",
-            font = font_with_fallback("VictorMono Nerd Font Mono", {bold = true , italic = true})
-        },
-        {intensity = "Bold", font = font_with_fallback("VictorMono Nerd Font Mono")}
-    },
-    font_size = 12.0,
-    font_shaper = "Harfbuzz",
-    line_height = 1.0,
-    freetype_load_target = "HorizontalLcd",
-    freetype_render_target = "Normal",
-
-    -- Cursor style
-    default_cursor_style = "SteadyUnderline",
-
-    -- X Bad
-    enable_wayland = false,
-
-    -- Pretty Colors
-    bold_brightens_ansi_colors = true,
-
-    --transparency
-    window_background_opacity = 0.0,
-
-
-    -- Get rid of close prompt
-    window_close_confirmation = "NeverPrompt",
-
-    -- Padding
-    --window_padding = {left = 45, right = 45, top = 45, bottom = 45},
-
-    -- No opacity
-    inactive_pane_hsb = {saturation = 1.0, brightness = 1.0}
-}
-
--- Colors
-local cfg_colors = {colors = theme.colors}
-
--- Tab Style (like shape)
-local cfg_tab_bar_style = theme.tab_style
-
--- Keys
---local cfg_keys = configuration.keys
-
--- Merge everything and return
-local config = mytable.merge_all(cfg_misc, cfg_colors, cfg_tab_bar_style,
-                                 cfg_keys)
-return config
-
-    
+  front_end = "OpenGL",
+  font_size = 12.0,
+  font_shaper = "Harfbuzz",
+  harfbuzz_features = {"kern", "liga", "clig", "calt"},
+  font_antialias = "Subpixel",
+  font_hinting = "Full",
+  line_height = 1.0,
+  freetype_load_target = "HorizontalLcd",
+  freetype_render_target = "Light",
+  default_cursor_style = "SteadyUnderline",,
+  tab_bar_at_bottom = true,
+    tab_bar_style = {
+    active_tab_left = wezterm.format({
+      {Background={Color="#0b0022"}},
+      {Foreground={Color="#2b2042"}},
+      {Text=SOLID_LEFT_ARROW},
+    }),
+    active_tab_right = wezterm.format({
+      {Background={Color="#0b0022"}},
+      {Foreground={Color="#2b2042"}},
+      {Text=SOLID_RIGHT_ARROW},
+    }),
+    inactive_tab_left = wezterm.format({
+      {Background={Color="#0b0022"}},
+      {Foreground={Color="#1b1032"}},
+      {Text=SOLID_LEFT_ARROW},
+    }),
+    inactive_tab_right = wezterm.format({
+      {Background={Color="#0b0022"}},
+      {Foreground={Color="#1b1032"}},
+      {Text=SOLID_RIGHT_ARROW},
+    }),
+  },
+  term = "wezterm",
+  window_decorations = "NONE",
+  -- Flat
+  color_scheme = {
+    foreground = "#2cc55d"
+    background = "#002240"
+    cursor_bg = "#e5be0c"
+    cursor_border = "#e5be0c"
+    cursor_fg = "#ffffff"
+    selection_bg = "#792b9c"
+    selection_fg = "#ffffff"
+    ansi = ["#222d3f","#a82320","#32a548","#e58d11","#3167ac","#781aa0","#2c9370","#b0b6ba"]
+    brights = ["#212c3c","#d4312e","#2d9440","#e5be0c","#3c7dd2","#8230a7","#35b387","#e7eced"]
+  tab_bar = {
+    background = "#002240",
+    active_tab = {bg_color = "#002240", fg_color = "#2cc55d", italic = true},
+    inactive_tab = {bg_color = "#1d1e24", fg_color = "#2cc55d"},
+    inactive_tab_hover = {bg_color = "#1d1e24", fg_color = "#2cc55d"},
+  }
 }
