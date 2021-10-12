@@ -45,5 +45,3 @@ keys.keys = {
 }
 
 return keys
-Terms
-Privacy
