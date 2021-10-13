@@ -1,20 +1,3 @@
- Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-# Use powerline
-#USE_POWERLINE="true"
-# Source manjaro-zsh-configuration
-#if [[ -e /usr/share/zsh/manjaro-zsh-config ]]; then
-#  source /usr/share/zsh/manjaro-zsh-config
-#fi
-# Use manjaro zsh prompt
-#if [[ -e /usr/share/zsh/manjaro-zsh-prompt ]]; then
-#  source /usr/share/zsh/manjaro-zsh-prompt
-#fi
-
 # 256 Colors
 if [ "$TERM" = "xterm" ]; then
         # No it isn't, it's gnome-terminal
@@ -88,15 +71,15 @@ if [[ -s "$zcompf" && (! -s "${zcompf}.zwc" || "$zcompf" -nt "${zcompf}.zwc") ]]
 fi
 
 
-export PATH=/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/.local/share:$HOME/.cargo/bin:$HOME/.cargo/env:$PATH
-export VISUAL=nvim
-export EDITOR=nvim
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/.local/share:$HOME/.cargo/bin:$HOME/.cargo/env:$PATH"
+export VISUAL="nvim"
+export EDITOR="nvim"
 export HISTSIZE=10000
 export SAVEHIST=10000
 export HISTFILE="$HOME/.zhistory"
 export TERM="xterm-256color"
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
+export LC_ALL="en_US.UTF-8"
+export LANG="en_US.UTF-8"
 
 
 ### Aliases ###
@@ -111,7 +94,6 @@ fi
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main cursor)
 typeset -gA ZSH_HIGHLIGHT_STYLES
 ZSH_HIGHLIGHT_STYLES[comment]='fg=#6272A4'
-
 ZSH_HIGHLIGHT_STYLES[alias]='fg=#50FA7B'
 ZSH_HIGHLIGHT_STYLES[suffix-alias]='fg=#50FA7B'
 ZSH_HIGHLIGHT_STYLES[global-alias]='fg=#50FA7B'
@@ -165,7 +147,7 @@ ZSH_HIGHLIGHT_STYLES[default]='fg=#F8F8F2'
 ZSH_HIGHLIGHT_STYLES[cursor]='standout'
 
 ### dracula tty
-if [ "$TERM" = "xterm-256color" ]; then
+if [ "$TERM" = "linux" ]; then
         printf %b '\e[40m' '\e[8]' # set default background to color 0 'dracula-bg'
         printf %b '\e[37m' '\e[8]' # set default foreground to color 7 'dracula-fg'
         printf %b '\e]P0282a36'    # redefine 'black'          as 'dracula-bg'
@@ -188,7 +170,12 @@ if [ "$TERM" = "xterm-256color" ]; then
 fi
 
 source $HOME/.cargo/env
-fastfetch
+source $HOME/.fonts/awesome-terminal-fonts/devicons-regular.sh
+source $HOME/.fonts/awesome-terminal-fonts/fontawesome-regular.sh
+source $HOME/.fonts/awesome-terminal-fonts/octicons-regular.sh
+source $HOME/.fonts/awesome-terminal-fonts/pomicons-regular.sh
+
+neofetch
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit /usr/share/zsh/p10k.zsh.
