@@ -60,23 +60,23 @@ return {
   tab_bar_at_bottom = true,
     tab_bar_style = {
     active_tab_left = wezterm.format({
-      {Background={Color="#0b0022"}},
-      {Foreground={Color="#2b2042"}},
+      {Background={Color="#002240"}},
+      {Foreground={Color="#2cc55d"}},
       {Text=SOLID_LEFT_ARROW},
     }),
     active_tab_right = wezterm.format({
-      {Background={Color="#0b0022"}},
-      {Foreground={Color="#2b2042"}},
+      {Background={Color="#002240"}},
+      {Foreground={Color="#2cc55d"}},
       {Text=SOLID_RIGHT_ARROW},
     }),
     inactive_tab_left = wezterm.format({
-      {Background={Color="#0b0022"}},
-      {Foreground={Color="#1b1032"}},
+      {Background={Color="#002240"}},
+      {Foreground={Color="#2cc55d"}},
       {Text=SOLID_LEFT_ARROW},
     }),
     inactive_tab_right = wezterm.format({
-      {Background={Color="#0b0022"}},
-      {Foreground={Color="#1b1032"}},
+      {Background={Color="#002240"}},
+      {Foreground={Color="#2cc55d"}},
       {Text=SOLID_RIGHT_ARROW},
     }),
   },
