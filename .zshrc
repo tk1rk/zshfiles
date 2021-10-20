@@ -1,8 +1,65 @@
+# take tike to measure boot time
+bootTimeStart=$(gdate +%s%N)
+
+# first include of the environment
+source $HOME/.config/zsh/environment.zsh
+
+typeset -ga sources
+sources+="$ZSH_CONFIG/environment.zsh"
+sources+="$ZSH_CONFIG/options.zsh"
+sources+="$ZSH_CONFIG/prompt.zsh"
+sources+="$ZSH_CONFIG/functions.zsh"
+sources+="$ZSH_CONFIG/aliases.zsh"
+
+# highlights the live command line
+# Cloned From: git://github.com/nicoulaj/zsh-syntax-highlighting.git
+sources+="$ZSH_CONFIG/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+# provides the package name of a non existing executable
+# (sudo apt-get install command-not-found)
+sources+="/etc/zsh_command_not_found"
+
+# Check for a system specific file
+systemFile=`uname -s | tr "[:upper:]" "[:lower:]"`
+sources+="$ZSH_CONFIG/$systemFile.zsh"
+
+# Private aliases and adoptions
+sources+="$ZSH_CONFIG/private.zsh"
+
+# completion config needs to be after system and private config
+sources+="$ZSH_CONFIG/completion.zsh"
+
+# provides git completion
+sources+="$ZSH_CONFIG/git.zsh"
+
+# fasd integration and config
+sources+="$ZSH_CONFIG/fasd.zsh"
+
+# fzf integration and config
+sources+="$ZSH_CONFIG/fzf.zsh"
+
+# bd - https://github.com/Tarrasch/zsh-bd
+sources+="$ZSH_CONFIG/zsh-bd/bd.zsh"
+
+# Private aliases and adoptions added at the very end (e.g. to start byuobu)
+sources+="$ZSH_CONFIG/private.final.zsh"
+
+# try to include all sources
+foreach file (`echo $sources`)
+    if [[ -a $file ]]; then
+        # sourceIncludeTimeStart=$(gdate +%s%N)
+        source $file
+        # sourceIncludeDuration=$((($(gdate +%s%N) - $sourceIncludeTimeStart)/1000000))
+        # echo $sourceIncludeDuration ms runtime for $file
+    fi
+end
+
+bootTimeDuration=$((($(gdate +%s%N) - $bootTimeStart)/1000000))
+echo $bootTimeDuration ms overall boot duration
+
+
 # 256 Colors
-if [ "$TERM" = "xterm" ]; then
-        # No it isn't, it's gnome-terminal
-        export TERM=xterm-256color
-fi
+export TERM=linux
 
 
 scroll-and-clear-screen() {
@@ -11,17 +68,6 @@ scroll-and-clear-screen() {
 }
 zle -N scroll-and-clear-screen
 bindkey '^l' scroll-and-clear-screen
-
-# LS_COLORS
-source $HOME/LS_COLORS
-
-# .dir_colors
-eval $( dircolors -b $HOME/.dircolors.sh )
-alias dir='dir --color'
-
-# Sheldon
-eval "$(sheldon source)"
-
 
 if ! [[ $MYPROMPT = nautilus ]]; then
     isnautilus=false
@@ -65,7 +111,35 @@ fi
 if [[ -s "$zcompf" && (! -s "${zcompf}.zwc" || "$zcompf" -nt "${zcompf}.zwc") ]]; then
     # since file is mapped, it might be mapped right now (current shells), so rename it then make a new o>
     [[ -e "$zcompf.zwc" ]] && mv -f "$zcompf.zwc" "$zcompf.zwc.old"
+    # compile it mappsetopt extendedglob local_options
+local zcompf="${[ZCOMPDUMP_PATH]:-${ZDOTDIR:-$HOME}/.zcompdump}"
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:*:*:*:*' menu yes select
+autoload -Uz compinit
+compinit
+autoload -Uz bashcompinit
+bashcompinit;
+autoload -U colors
+colors
+# use a separate file to determine when to regenerate, as compinit doesn't always need to modify the comp>
+local zcompf_a="${zcompf}.augur"
+
+if [[ -e "$zcompf_a" && -f "$zcompf_a"(#qN.md-1) ]]; then
+    compinit -C -d "$zcompf"
+else
+    compinit -d "$zcompf"
+    touch "$zcompf_a"
+fi
+
+# if zcompdump exists (and is non-zero), and is older than the .zwc file, then regenerate
+if [[ -s "$zcompf" && (! -s "${zcompf}.zwc" || "$zcompf" -nt "${zcompf}.zwc") ]]; then
+    # since file is mapped, it might be mapped right now (current shells), so rename it then make a new o>
+    [[ -e "$zcompf.zwc" ]] && mv -f "$zcompf.zwc" "$zcompf.zwc.old"
     # compile it mapped, so multiple shells can share it (total mem reduction)
+    # run in background
+    { zcompile -M "$zcompf" && command rm -f "$zcompf.zwc.old" }&!
+fi
+ed, so multiple shells can share it (total mem reduction)
     # run in background
     { zcompile -M "$zcompf" && command rm -f "$zcompf.zwc.old" }&!
 fi
@@ -168,6 +242,18 @@ if [ "$TERM" = "linux" ]; then
         printf %b '\e]PFffffff'    # redefine 'bright-white'   as '#ffffff'
         clear
 fi
+
+# LS_COLORS
+source $HOME/LS_COLORS
+
+# .dir_colors
+eval $( dircolors -b $HOME/.d
+ircolors.sh )
+alias dir='dir --color'
+
+# Sheldon
+eval "$(sheldon source)"
+
 
 source $HOME/.cargo/env
 source $HOME/.fonts/awesome-terminal-fonts/devicons-regular.sh
