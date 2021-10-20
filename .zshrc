@@ -58,6 +58,24 @@ bootTimeDuration=$((($(gdate +%s%N) - $bootTimeStart)/1000000))
 echo $bootTimeDuration ms overall boot duration
 
 
+                                                                                                                                                                                                                  
+# Path                                                                                                                                                                                                            
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/.local/share:$HOME/.cargo/bin:$HOME/.cargo/env:$PATH"                                                                                           
+                                                                                                                                                                                                                  
+# Editor                                                                                                                                                                                                          
+export VISUAL="nvim"                                                                                                                                                                                              
+export EDITOR="nvim"                                                                                                                                                                                              
+                                                                                                                                                                                                                  
+# Sheldon                                                                                                                                                                                                         
+eval "$(sheldon source)"                                                                                                                                                                                          
+                                                                                                                                                                                                                  
+# Starship Theme                                                                                                                                                                                                  
+eval "$(starship init zsh)"                                                                                                                                                                                       
+                                                                                                                                                                                                                  
+# Neofetch                                                                                                                                                                                                        
+neofetch                                                                                                                                                                                                          
+eval source <(/usr/local/bin/starship init zsh --print-full-init)
+
 # 256 Colors
 export TERM=linux
 
