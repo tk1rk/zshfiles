@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+  qbittorrent:
+    container_name: qbittorrent
+    image: hotio/qbittorrent
+    restart: always
+    network_mode: "host"
+    ports:
+      - "8080:8080"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=America/Los_Angeles
+    volumes:
+      - /home/tk/.docker/qBittorrent/config:/config
+      - /home/tk/.docker/qBittorrent/app:/app
