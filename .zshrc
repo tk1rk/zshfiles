@@ -1,19 +1,4 @@
- Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
 
-# Use powerline
-#USE_POWERLINE="true"
-# Source manjaro-zsh-configuration
-#if [[ -e /usr/share/zsh/manjaro-zsh-config ]]; then
-#  source /usr/share/zsh/manjaro-zsh-config
-#fi
-# Use manjaro zsh prompt
-#if [[ -e /usr/share/zsh/manjaro-zsh-prompt ]]; then
-#  source /usr/share/zsh/manjaro-zsh-prompt
-#fi
 
 # 256 Colors
 if [ "$TERM" = "xterm" ]; then
@@ -30,44 +15,22 @@ zle -N scroll-and-clear-screen
 bindkey '^l' scroll-and-clear-screen
 
 # LS_COLORS
-source $HOME/LS_COLORS
+
 
 # .dir_colors
-eval $( dircolors -b $HOME/.dircolors.sh )
-alias dir='dir --color'
+
 
 # Sheldon
 eval "$(sheldon source)"
 
 
-if ! [[ $MYPROMPT = nautilus ]]; then
-    isnautilus=false
-    # Use chpwd_recent_dirs to start new sessions from last working dir
-        # Populate dirstack with chpwd history
-    autoload -Uz chpwd_recent_dirs add-zsh-hook
-    add-zsh-hook chpwd chpwd_recent_dirs
-    zstyle ':chpwd:*' recent-dirs-file "${TMPDIR:-/tmp}/chpwd-recent-dirs"
-    dirstack=($(awk -F"'" '{print $2}' ${$(zstyle -L ':chpwd:*' recent-dirs-file)[4]} 2>/dev/null))
-    [[ ${PWD} = ${HOME}  || ${PWD} = "." ]] && (){
-        local dir
-        for dir ($dirstack){
-            [[ -d "${dir}" ]] && { cd -q "${dir}"; break }
-        }
-    } 2>/dev/null
-else
-    isnautilus=true
-fi
+if
 
 setopt extendedglob local_options
 local zcompf="${[ZCOMPDUMP_PATH]:-${ZDOTDIR:-$HOME}/.zcompdump}"
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:*:*:*' menu yes select
-autoload -Uz compinit
-compinit
-autoload -Uz bashcompinit
-bashcompinit;
-autoload -U colors
-colors
+
 # use a separate file to determine when to regenerate, as compinit doesn't always need to modify the comp>
 local zcompf_a="${zcompf}.augur"
 
@@ -87,10 +50,46 @@ if [[ -s "$zcompf" && (! -s "${zcompf}.zwc" || "$zcompf" -nt "${zcompf}.zwc") ]]
     { zcompile -M "$zcompf" && command rm -f "$zcompf.zwc.old" }&!
 fi
 
+# enable all of the highlighters
+typeset -Ua ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor root)
+
+##
+## autoloads
+##
+
+function autoload-all-in() {
+	local function_glob='^([_.]*|prompt_*_setup|README*)(-.N:t)'
+	local p
+	setopt LOCAL_OPTIONS EXTENDED_GLOB NULLGLOB
+	for p in ${^argv}(/); do
+		autoload -Uz $p/${~function_glob}
+	done
+}
+
+autoload-all-in {$LOCAL_ZDOTDIR,$ZDOTDIR}/functions
+
+autoload -Uz before after throw catch relative cdr sticky-note surround zcalc{,-auto-insert} which-command zcompdump zargs zed zed-set-file-name zfanon zfautocheck zfcd zfcd_match zfcget xtermctl
+autoload -Uz allopt age checkmail chpwd_recent_{add,dirs,filehandler} calendar{,_{add,edit,lockfiles,parse,read,scandate,show,showdate,sort}}
+
+autoload -Uz run-help{,-{git,ip,openssl,p4,sudo,svk,svn}}
+
+autoload -Uz backward-kill-word-match backward-word-match bracketed-paste-url-magic capitalize-word-match copy-earlier-word quote-and-complete-word read-from-minibuffer regexp-replace replace-argument replace-string replace-string-again select-bracketed select-quoted select-word-style send-invisible smart-insert-last-word split-shell-arguments
+
+# bash comp
+autoload -Uz compinit
+compinit
+autoload -Uz bashcompinit
+bashcompinit;
+autoload -U colors
+colors
+
 
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/.local/share:$HOME/.cargo/bin:$HOME/.cargo/env:$PATH
 export VISUAL=nvim
 export EDITOR=nvim
+alias vi='nvim'
+alias vim='nvim'
+alias nv='nvim'
 export HISTSIZE=10000
 export SAVEHIST=10000
 export HISTFILE="$HOME/.zhistory"
