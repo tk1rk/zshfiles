@@ -1,39 +1,80 @@
-" Vundle
-filetype off
+" Vim-plug
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-let g:vundle_default_git_proto = 'git'
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
 
-" Bundles
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'sjl/gundo.vim'
-Plugin 'godlygeek/tabular'
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'scrooloose/nerdtree'
-Plugin 'TomNomNom/xoria256.vim'
-Plugin 'fatih/vim-go'
-Plugin 'rust-lang/rust.vim'
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
 
-call vundle#end()
+" H to run help menu
+function! s:plug_doc()
+  let name = matchstr(getline('.'), '^- \zs\S\+\ze:')
+  if has_key(g:plugs, name)
+    for doc in split(globpath(g:plugs[name].dir, 'doc/*.txt'), '\n')
+      execute 'tabe' doc
+    endfor
+  endif
+endfunction
+
+augroup PlugHelp
+  autocmd!
+  autocmd FileType vim-plug nnoremap <buffer> <silent> H :call <sid>plug_doc()<cr>
+augroup END
+
+" gx to open GitHub URLs on browser
 
 
-" Required for vundle
-"filetype plugin indent on 
+
+" Plugins
+call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-fugitive'
+Plug 'sjl/gundo.vim'
+Plug 'godlygeek/tabular'
+"Plug 'bling/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
+Plug 'altercation/vim-colors-solarized'
+Plug 'scrooloose/nerdtree'
+Plug 'TomNomNom/xoria256.vim'
+Plug 'fatih/vim-go'
+Plug 'ryanoasis/vim-devicons'
+Plug 'rust-lang/rust.vim'
+Plug 'mhinz/vim-startify'
+Plug 'itchyny/lightline.vim'
+Plug 'stevearc/gkeep.nvim'
+Plug 'ray-x/aurora'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'Valloric/YouCompleteMe'
+Plug 'jiangmiao/auto-pairs'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+call plug#end()
+
+" filetype
+filetype plugin indent on 
 filetype plugin on 
 
 " Highlighting
 syntax on
 
+# encoding
 set encoding=utf-8
 
-" Airline config
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='powerlineish'
+set termguicolors            " 24 bit color
+colorscheme aurora
+let g:lightline = {
+      \ 'colorscheme': 'darcula',
+            \ }
 
 " History
 set history=50
@@ -46,6 +87,11 @@ set modeline
 set ruler
 set title
 set nu
+set number
+
+set expandtab
+set scrolloff=8
+set noerrorbells
 
 " Line wrapping
 set nowrap
@@ -75,89 +121,12 @@ set softtabstop=4
 set shiftround
 set expandtab
 
-" Disable mouse
-set mouse=
-
-" Colorscheme
-if &t_Co == 256
-    try
-        color xoria256
-    catch /^Vim\%((\a\+)\)\=:E185/
-        " Oh well
-    endtry
-endif
-
-" Switch tabs
-map 8 <Esc>:tabe 
-map 9 gT
-map 0 gt
-
-" Gundo toggle
-map <F5> <Esc>:GundoToggle<CR>
-
-" Toggle line-wrap
-map <F6> <Esc>:set wrap!<CR>
-
-" Open file under cursor in new tab
-map <F9> <Esc><C-W>gF<CR>:tabm<CR>
-
-" Direction keys for wrapped lines
-nnoremap <silent> k gk
-nnoremap <silent> j gj
-nnoremap <silent> <Up> gk
-nnoremap <silent> <Down> gj
-inoremap <silent> <Up> <Esc>gka
-inoremap <silent> <Down> <Esc>gja
-
-" Bash / emacs keys for command line
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
-
-" Base64 decode word under cursor
-nmap <Leader>b :!echo <C-R><C-W> \| base64 -d<CR>
-
-" grep recursively for word under cursor
-nmap <Leader>g :tabnew\|read !grep -Hnr '<C-R><C-W>'<CR>
-
-" sort the buffer removing duplicates
-nmap <Leader>s :%!sort -u --version-sort<CR>
 
 " Visual prompt for command completion
 set wildmenu
 
-" Write current file with sudo perms
-"command! W w !sudo tee % > /dev/null
-command! W w
-command! -bang Qall qall
-
 " folding
-set nofoldenable
+set foldenable
 
-" Open word under cursor as ctag in new tab
-map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
-
-if $VIMENV == 'talk'
-  set background=dark
-  let g:solarized_termcolors=256
-  colo solarized
-  noremap <Space> :n<CR>
-  noremap <Backspace> :N<CR>
-else
-  " Trans background
-  hi Normal ctermbg=none
-  hi NonText ctermbg=none
-endif
-
-if $VIMENV == 'prev'
-  noremap <Space> :n<CR>
-  noremap <Backspace> :N<CR>
-  noremap <C-D> :call delete(expand('%')) <bar> argdelete % <bar> bdelete<CR>
-  set noswapfile
-endif
-
-set noesckeys
 
 set nocompatible
-
-" set the interactive flag so bash functions are sourced from ~/.bashrc etc
-"set shellcmdflag=-ci
