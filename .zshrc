@@ -1,6 +1,3 @@
-# take tike to measure boot time
-bootTimeStart=$(gdate +%s%N)
-
 # first include of the environment
 source $HOME/.config/zsh/environment.zsh
 
@@ -11,20 +8,9 @@ sources+="$ZSH_CONFIG/prompt.zsh"
 sources+="$ZSH_CONFIG/functions.zsh"
 sources+="$ZSH_CONFIG/aliases.zsh"
 
-# highlights the live command line
-# Cloned From: git://github.com/nicoulaj/zsh-syntax-highlighting.git
-sources+="$ZSH_CONFIG/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-
-# provides the package name of a non existing executable
+ provides the package name of a non existing executable
 # (sudo apt-get install command-not-found)
 sources+="/etc/zsh_command_not_found"
-
-# Check for a system specific file
-systemFile=`uname -s | tr "[:upper:]" "[:lower:]"`
-sources+="$ZSH_CONFIG/$systemFile.zsh"
-
-# Private aliases and adoptions
-sources+="$ZSH_CONFIG/private.zsh"
 
 # completion config needs to be after system and private config
 sources+="$ZSH_CONFIG/completion.zsh"
@@ -36,119 +22,20 @@ sources+="$ZSH_CONFIG/git.zsh"
 sources+="$ZSH_CONFIG/fasd.zsh"
 
 # fzf integration and config
-sources+="$ZSH_CONFIG/fzf.zsh"
-
-# bd - https://github.com/Tarrasch/zsh-bd
-sources+="$ZSH_CONFIG/zsh-bd/bd.zsh"
-
-# Private aliases and adoptions added at the very end (e.g. to start byuobu)
-sources+="$ZSH_CONFIG/private.final.zsh"
-
-# try to include all sources
-foreach file (`echo $sources`)
-    if [[ -a $file ]]; then
-        # sourceIncludeTimeStart=$(gdate +%s%N)
-        source $file
-        # sourceIncludeDuration=$((($(gdate +%s%N) - $sourceIncludeTimeStart)/1000000))
-        # echo $sourceIncludeDuration ms runtime for $file
-    fi
-end
-
-bootTimeDuration=$((($(gdate +%s%N) - $bootTimeStart)/1000000))
-echo $bootTimeDuration ms overall boot duration
-
-
-                                                                                                                                                                                                                  
-# Path                                                                                                                                                                                                            
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/.local/share:$HOME/.cargo/bin:$HOME/.cargo/env:$PATH"                                                                                           
-                                                                                                                                                                                                                  
-# Editor                                                                                                                                                                                                          
-export VISUAL="nvim"                                                                                                                                                                                              
-export EDITOR="nvim"                                                                                                                                                                                              
-                                                                                                                                                                                                                  
-# Sheldon                                                                                                                                                                                                         
-eval "$(sheldon source)"                                                                                                                                                                                          
-                                                                                                                                                                                                                  
-# Starship Theme                                                                                                                                                                                                  
-eval "$(starship init zsh)"                                                                                                                                                                                       
-                                                                                                                                                                                                                  
-# Neofetch                                                                                                                                                                                                        
-neofetch                                                                                                                                                                                                          
-eval source <(/usr/local/bin/starship init zsh --print-full-init)
-
-# 256 Colors
-export TERM=linux
-
-
-scroll-and-clear-screen() {
-    printf '\n%.0s' {1..$LINES}
-    zle clear-screen
-}
-zle -N scroll-and-clear-screen
-bindkey '^l' scroll-and-clear-screen
-
-if ! [[ $MYPROMPT = nautilus ]]; then
-    isnautilus=false
-    # Use chpwd_recent_dirs to start new sessions from last working dir
-        # Populate dirstack with chpwd history
-    autoload -Uz chpwd_recent_dirs add-zsh-hook
-    add-zsh-hook chpwd chpwd_recent_dirs
-    zstyle ':chpwd:*' recent-dirs-file "${TMPDIR:-/tmp}/chpwd-recent-dirs"
-    dirstack=($(awk -F"'" '{print $2}' ${$(zstyle -L ':chpwd:*' recent-dirs-file)[4]} 2>/dev/null))
-    [[ ${PWD} = ${HOME}  || ${PWD} = "." ]] && (){
-        local dir
-        for dir ($dirstack){
-            [[ -d "${dir}" ]] && { cd -q "${dir}"; break }
-        }
-    } 2>/dev/null
-else
-    isnautilus=true
-fi
-
+sources+="$ZSH_CONFIG/fzf.zsh"                                                                                                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    scroll-and-clear-screen()
 setopt extendedglob local_options
 local zcompf="${[ZCOMPDUMP_PATH]:-${ZDOTDIR:-$HOME}/.zcompdump}"
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:*:*:*' menu yes select
-autoload -Uz compinit
-compinit
-autoload -Uz bashcompinit
-bashcompinit;
-autoload -U colors
-colors
 # use a separate file to determine when to regenerate, as compinit doesn't always need to modify the comp>
 local zcompf_a="${zcompf}.augur"
-
 if [[ -e "$zcompf_a" && -f "$zcompf_a"(#qN.md-1) ]]; then
     compinit -C -d "$zcompf"
 else
     compinit -d "$zcompf"
     touch "$zcompf_a"
 fi
-
-# if zcompdump exists (and is non-zero), and is older than the .zwc file, then regenerate
-if [[ -s "$zcompf" && (! -s "${zcompf}.zwc" || "$zcompf" -nt "${zcompf}.zwc") ]]; then
-    # since file is mapped, it might be mapped right now (current shells), so rename it then make a new o>
-    [[ -e "$zcompf.zwc" ]] && mv -f "$zcompf.zwc" "$zcompf.zwc.old"
-    # compile it mappsetopt extendedglob local_options
-local zcompf="${[ZCOMPDUMP_PATH]:-${ZDOTDIR:-$HOME}/.zcompdump}"
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*:*:*:*:*' menu yes select
-autoload -Uz compinit
-compinit
-autoload -Uz bashcompinit
-bashcompinit;
-autoload -U colors
-colors
-# use a separate file to determine when to regenerate, as compinit doesn't always need to modify the comp>
-local zcompf_a="${zcompf}.augur"
-
-if [[ -e "$zcompf_a" && -f "$zcompf_a"(#qN.md-1) ]]; then
-    compinit -C -d "$zcompf"
-else
-    compinit -d "$zcompf"
-    touch "$zcompf_a"
-fi
-
 # if zcompdump exists (and is non-zero), and is older than the .zwc file, then regenerate
 if [[ -s "$zcompf" && (! -s "${zcompf}.zwc" || "$zcompf" -nt "${zcompf}.zwc") ]]; then
     # since file is mapped, it might be mapped right now (current shells), so rename it then make a new o>
@@ -162,10 +49,16 @@ ed, so multiple shells can share it (total mem reduction)
     { zcompile -M "$zcompf" && command rm -f "$zcompf.zwc.old" }&!
 fi
 
+autoload -Uz compinit
+compinit
+autoload -Uz bashcompinit
+bashcompinit;
+autoload -U colors
+colors
 
 export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/.local/share:$HOME/.cargo/bin:$HOME/.cargo/env:$PATH"
-export VISUAL="nvim"
 export EDITOR="nvim"
+export VISUAL="$EDITOR"
 export HISTSIZE=10000
 export SAVEHIST=10000
 export HISTFILE="$HOME/.zhistory"
@@ -178,6 +71,8 @@ export LANG="en_US.UTF-8"
 if [ -f ~/.zsh_aliases ]; then
     . ~/.zsh_aliases
 fi
+
+### Functions ###
 if [ -f ~/.zsh_functions ]; then
     . ~/.zsh_functions
 fi
@@ -272,25 +167,16 @@ alias dir='dir --color'
 # Sheldon
 eval "$(sheldon source)"
 
-
+# Cargo
 source $HOME/.cargo/env
-source $HOME/.fonts/awesome-terminal-fonts/devicons-regular.sh
-source $HOME/.fonts/awesome-terminal-fonts/fontawesome-regular.sh
-source $HOME/.fonts/awesome-terminal-fonts/octicons-regular.sh
-source $HOME/.fonts/awesome-terminal-fonts/pomicons-regular.sh
 
+# Starship Theme                                                                                                                                                                                                  
+eval "$(starship init zsh)"
+
+# Neofetch
 neofetch
-source ~/powerlevel10k/powerlevel10k.zsh-theme
-
-# To customize prompt, run `p10k configure` or edit /usr/share/zsh/p10k.zsh.
-[[ ! -f /usr/share/zsh/p10k.zsh ]] || source /usr/share/zsh/p10k.zsh
-ZSH_THEME=powerlevel10k/powerlevel10k
 
 # Generated for envman. Do not edit.
 [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
-
-# BEGIN_KITTY_SHELL_INTEGRATION
-if test -e "/usr/lib/kitty/shell-integration/kitty.zsh"; then source "/usr/lib/kitty/shell-integration/ki>
-# END_KITTY_SHELL_INTEGRATION
 
