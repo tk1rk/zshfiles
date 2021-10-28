@@ -26,6 +26,13 @@ alias za='$EDITOR $HOME /.aliases'
 alias zf='$EDITOR $HOME/.functions'                                                                                 
 alias zrc='$EDITOR $HOME/.zshrc'                                                                                    
 
+# git
+alias gcl='git clone --depth 1'
+alias gi='git init'
+alias ga='git add'
+alias gc='git commit -m'
+alias gp='git push origin master'
+
 
 # Auto-completion
 alias up=" nmcli con up id"
