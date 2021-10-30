@@ -1,18 +1,3 @@
-### vim: ft=zsh:fdm=marker:fml=1:fdl=0:fmr=<,>:smc&:cc&:
-#< ${HOME}/etc/zsh/02-completion.zsh
-#   ‗‗‗‗‗‗‗‗‗‗‗‗ ‗‗‗‗‗‗ ‗‗‗‗‗‗‗‗ ‗‗‗‗‗‗‗‗‗‗‗
-#         owner  Magnus Woldrich <magnus.woldrich@gmail.com>
-#       crafted  2009-04-24
-#         mtime  2016-09-05 15:26:36
-#   permissions  You are free to use things you may find useful here.
-#                Would my tweaks happen to give you a raise or fetch you a
-#                girlfriend, it goes without saying I'm counting on you
-#                to share with me as I've shared with you.
-#           git  git://github.com/trapd00r/configs.git
-#           url  http://github.com/trapd00r/configs/zsh
-#           irc  japh@freenode #zsh #vim #perl
-#   ‗‗‗‗‗‗‗‗‗‗‗‗ ‗‗‗‗‗‗‗‗‗‗‗‗‗ ‗‗‗‗ ‗‗‗‗ ‗‗‗‗
-#>
 ### zstyle :completion:<function>:<completer>:<command>:<argument>:<tag> _settings_
 
 #< LS_COLORS
