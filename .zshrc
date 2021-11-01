@@ -4,7 +4,6 @@ source $HOME/.config/zsh/environment.zsh
 typeset -ga sources
 sources+="$ZSH_CONFIG/environment.zsh"
 sources+="$ZSH_CONFIG/options.zsh"
-sources+="$ZSH_CONFIG/prompt.zsh"
 sources+="$ZSH_CONFIG/functions.zsh"
 sources+="$ZSH_CONFIG/aliases.zsh"
 
@@ -56,7 +55,7 @@ bashcompinit;
 autoload -U colors
 colors
 
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/.local/share:$HOME/.cargo/bin:$HOME/.cargo/env:$PATH"
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/.local/share:$HOME/.cargo/bin:$HOME/.cargo/env::$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
 export HISTSIZE=10000
@@ -160,8 +159,7 @@ fi
 source $HOME/LS_COLORS
 
 # .dir_colors
-eval $( dircolors -b $HOME/.d
-ircolors.sh )
+eval $( dircolors -b $HOME/.dircolors.sh )
 alias dir='dir --color'
 
 # Sheldon
