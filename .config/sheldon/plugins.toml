@@ -1,6 +1,9 @@
-shell = "bash"
+shell = "zsh"
 
 [plugins]
+
+[plugins.fzf]
+github = "junegunn/fzf"
 
 [plugins.fzf-tab]
 github = "Aloxaf/fzf-tab"
@@ -14,6 +17,9 @@ github = "zsh-users/zsh-completions"
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 
+[plugins.zsh-autocomplete]
+github = "marlonrichert/zsh-autocomplete"
+
 [plugins.history-search-multi-word]
 github = "psprint/history-search-multi-word"
 
@@ -25,7 +31,6 @@ github = "chrissicool/zsh-256color"
 
 [plugins.zsh-async]
 github = "mafredri/zsh-async"
-
 
 [plugins.fast-syntax-highlighting]
 github = "zdharma/fast-syntax-highlighting"
