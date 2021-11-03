@@ -14,6 +14,9 @@ github = "jesseduffield/lazygit"
 [plugins.lazydocker]
 github = "jesseduffield/lazydocker"
 
+[plugins.zoxide]
+github = "ajeetdsouza/zoxide"
+
 [plugins.fzf]
 github = "junegunn/fzf"
 
