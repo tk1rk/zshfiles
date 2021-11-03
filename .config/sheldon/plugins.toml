@@ -2,6 +2,18 @@ shell = "zsh"
 
 [plugins]
 
+[plugins.enhancd]
+github = "b4b4r07/enhancd"
+
+[plugins.LS_COLORS]
+github = "trapd00r/LS_COLORS"
+
+[plugins.lazygit]
+github = "jesseduffield/lazygit"
+
+[plugins.lazydocker]
+github = "jesseduffield/lazydocker"
+
 [plugins.fzf]
 github = "junegunn/fzf"
 
