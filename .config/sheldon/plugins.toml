@@ -2,6 +2,21 @@ shell = "zsh"
 
 [plugins]
 
+[plugins.enhancd]
+github = "b4b4r07/enhancd"
+
+[plugins.LS_COLORS]
+github = "trapd00r/LS_COLORS"
+
+[plugins.lazygit]
+github = "jesseduffield/lazygit"
+
+[plugins.lazydocker]
+github = "jesseduffield/lazydocker"
+
+[plugins.zoxide]
+github = "ajeetdsouza/zoxide"
+
 [plugins.fzf]
 github = "junegunn/fzf"
 
@@ -17,20 +32,23 @@ github = "zsh-users/zsh-completions"
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
 
-[plugins.zsh-autocomplete]
-github = "marlonrichert/zsh-autocomplete"
-
 [plugins.history-search-multi-word]
 github = "psprint/history-search-multi-word"
-
-[plugins.powerlevel10k]
-github = "romkatv/powerlevel10k"
 
 [plugins.zsh-256color]
 github = "chrissicool/zsh-256color"
 
 [plugins.zsh-async]
 github = "mafredri/zsh-async"
+
+[plugins.auto-color-ls]
+github = "mafredri/auto-color-ls"
+
+[plugins.zsh-bash]
+github = "chrissicool/zsh-bash"
+
+[plugins.yadm-zsh]
+github = "juanrgon/yadm-zsh"
 
 [plugins.fast-syntax-highlighting]
 github = "zdharma/fast-syntax-highlighting"
