@@ -1,10 +1,8 @@
 #!/usr/bin/env zsh
 
-                                                                                                         
-SAVEIFS=$IFS                                                                                                        
-IFS="$(printf '\n\t')"                                                                                              
-               
-  
+SAVEIFS=$IFS
+IFS="$(printf '\n\t')"      
+
 function apt-import-key () {
     gpg --keyserver subkeys.pgp.net --recv-keys $1 | gpg --armor --export $1 | sudo apt-key add -
 }
@@ -17,7 +15,7 @@ r() {
     autoload -U $f:t
 }
 
-# creates new script, populating the shebang line and makes it executable.
+# creates new script, populating shebang line & executable.
 shebang() {
     if i=$(which $1);
     then
@@ -35,10 +33,9 @@ run-with-sudo() { LBUFFER="sudo $LBUFFER" }
 zle -N run-with-sudo
 bindkey '^Xs' run-with-sudo
 
-
 ### EXTRACT ###
-function extract {                                                                                                  
- if [ -z "$1" ]; then                                                                                               
+function extract {                                          
+  if [ -z "$1" ]; then                                         
     # display usage if no parameters given                                                                          
     echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"           
     echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"                      
