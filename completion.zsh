@@ -1,11 +1,4 @@
-# @author     Sebastian Tramp <mail@sebastian.tramp.name>
-# @license    http://opensource.org/licenses/gpl-license.php
-#
-# tab completion configuration
-#
-
-# add an autoload function path, if directory exists
-# http://www.zsh.org/mla/users/2002/msg00232.html
+# an autoload function path, if directory exists
 functionsd="$ZSH_CONFIG/functions.d"
 if [[ -d "$functionsd" ]] {
     fpath=( $functionsd $fpath )
@@ -18,7 +11,6 @@ zmodload -i zsh/complist
 # auto rehash commands
 # http://www.zsh.org/mla/users/2011/msg00531.html
 zstyle ':completion:*' rehash true
-
 
 # for all completions: menuselection
 zstyle ':completion:*' menu select
@@ -66,7 +58,6 @@ zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 # caching of completion stuff
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path "$ZSH_CACHE"
-
 
 # ~dirs: reorder output sorting: named dirs over userdirs
 zstyle ':completion::*:-tilde-:*:*' group-order named-directories users
