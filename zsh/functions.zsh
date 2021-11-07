@@ -74,7 +74,13 @@ function extract {
     done                                                                                                            
 fi                                                                                                                  
 }                                                                                                                   
- 
+
+alias findr='\fd'
+#function for find strings in files
+fif() {
+    findr --type f $1|xargs grep -n -i  $2
+}
+
 ### Source ZSH ###                                                                                                                   
 sourceZsh(){
     source ~/.zshrc
@@ -94,4 +100,9 @@ editZsh(){
 backupToDrive(){
     cp "$1" /Users/<username>/Google\ Drive/Config/.zshrc
     echo "New .zshrc backed up to Google Drive."
+}
+
+# Update YADM
+upYadm() {
+    yadm pull
 }
