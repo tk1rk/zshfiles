@@ -1,10 +1,3 @@
-                                                                                                         
-                                                                                                         
-###############################                                                                          
-# EXPORT ENVIRONMENT VARIABLE #                                                                          
-###############################                                                                          
-#!/bin/zsh                                                                                               
-                                                                                                         
 alias up='sudo apt update -y'                                                                                       
 alias aa='sudo apt autoremove -y'                                                                                   
 alias ai='sudo apt install -y'                                                                                      
@@ -33,13 +26,12 @@ alias ga='git add'
 alias gc='git commit -m'
 alias gp='git push origin master'
 
-
 # Auto-completion
 alias up=" nmcli con up id"
 alias down=" nmcli con down id"
 
+### APT ###
 LSB_DISTRIBUTOR=`lsb_release -i -s`
-
 # debian and ubuntu specific aliases
 ## autocomplete-able apt-xxx aliases
 if [[ "$LSB_DISTRIBUTOR" == "Ubuntu" ]]; then
