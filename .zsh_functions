@@ -1,17 +1,13 @@
-# EXPORT ENVIRONMENT VARIABLE #                                                                          
-###############################                                                                          
-#!/bin/zsh                                                                                               
-                                                                                                         
-SAVEIFS=$IFS                                                                                                        
-IFS="$(printf '\n\t')"                                                                                              
-               
-  
+#!/usr/bin/env zsh
+
+SAVEIFS=$IFS
+IFS="$(printf '\n\t')"      
+
 function apt-import-key () {
     gpg --keyserver subkeys.pgp.net --recv-keys $1 | gpg --armor --export $1 | sudo apt-key add -
 }
 
 # reloads all functions
-# http://www.zsh.org/mla/users/2002/msg00232.html
 r() {
     local f
     f=(~/.config/zsh/functions.d/*(.))
@@ -19,9 +15,7 @@ r() {
     autoload -U $f:t
 }
 
-# create a new script, automatically populating the shebang line, editing the
-# script, and making it executable.
-# http://www.commandlinefu.com/commands/view/8050/
+# creates new script, populating shebang line & executable.
 shebang() {
     if i=$(which $1);
     then
@@ -34,13 +28,14 @@ shebang() {
     rehash
 }
 
+### Run With Sudo ###
 run-with-sudo() { LBUFFER="sudo $LBUFFER" }
 zle -N run-with-sudo
 bindkey '^Xs' run-with-sudo
 
-
-function extract {                                                                                                  
- if [ -z "$1" ]; then                                                                                               
+### EXTRACT ###
+function extract {                                          
+  if [ -z "$1" ]; then                                         
     # display usage if no parameters given                                                                          
     echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"           
     echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"                      
@@ -79,5 +74,24 @@ function extract {
     done                                                                                                            
 fi                                                                                                                  
 }                                                                                                                   
-                                                                                                                    
-IFS=$SAVEIFS
+ 
+### Source ZSH ###                                                                                                                   
+sourceZsh(){
+    source ~/.zshrc
+    backupToDrive ~/.zshrc
+    echo "New .zshrc sourced."
+}
+
+### Edit ZSH ###
+editZsh(){
+    nano ~/.zshrc
+    source ~/.zshrc
+    backupToDrive ~/.zshrc
+    echo "New .zshrc sourced."
+}
+
+### Backup ###
+backupToDrive(){
+    cp "$1" /Users/<username>/Google\ Drive/Config/.zshrc
+    echo "New .zshrc backed up to Google Drive."
+}
