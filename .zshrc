@@ -1,5 +1,3 @@
-### ZSH ###
-export ZSH=$HOME/zsh
 export ZSH_CONFIG=$HOME/zsh
 
 ### ZSH_CACHE_DIR ### 
