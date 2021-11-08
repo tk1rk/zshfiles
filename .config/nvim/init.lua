@@ -1,7 +1,4 @@
-require('settings')    -- lua/settings.lua
-require('maps')        -- lua/maps.lua
-require('statusline')  -- lua/statusline.lua
-
+vim.cmd 'packadd paq-nvim'
 
 -- THEME --
 local cmd = vim.cmd
@@ -19,6 +16,12 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 
+--------------------
+-- impatient.nvim --
+-- TODO: remove this once it's merged
+require 'impatient'
+
+
 --------------
 -- PAQ-NVIM --
 require "paq-nvim" {
@@ -33,3 +36,14 @@ require "paq-nvim" {
 }
 
 
+require('settings')    -- lua/settings.lua
+require('maps')        -- lua/maps.lua
+require('statusline')  -- lua/statusline.lua
+
+
+---------------
+-- lsp setup --
+-- require('lsp.yaml') shits too noisy
+-- require('lsp.lua') it's horrible
+require('lsp.python')
+require('lsp.go')
