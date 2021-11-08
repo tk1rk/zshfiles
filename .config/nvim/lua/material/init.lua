@@ -15,6 +15,7 @@
 -- Author:                  Marko Cerovac <marko.cerovac16@gmail.com>
 -- Website:                 https://github.com/marko-cerovac/material.nvim
 local util = require('material.util')
+local theme = require('material.util')
 
 -- Load the theme
 local set = function(theme)
