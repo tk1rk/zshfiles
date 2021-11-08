@@ -16,6 +16,16 @@ if fn.empty(fn.glob(install_path)) > 0 then
   fn.system({'git', 'clone', '--depth=1', 'https://github.com/savq/paq-nvim.git', install_path})
 end
 
+## fzf
+local fzf = require("fzf")
+
+coroutine.wrap(function()
+  local result = fzf.fzf({"choice 1", "choice 2"}, "--ansi")
+    -- result is a list of lines that fzf returns, if the user has chosen
+  if result then
+      print(result[1])
+        end
+        end)()
 
 --------------------
 -- impatient.nvim --
