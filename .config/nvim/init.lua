@@ -46,6 +46,9 @@ require 'paq-nvim' {
     'vijaymarupudi/nvim-fzf'
     'kyazdani42/nvim-web-devicons'
     'ojroques/nvim-lspfuzzy';
+    {'ms-jpq/chadtree', branch: 'chad', do: 'python3 -m chadtree deps'}
+
+
     'ray-x/material_plus.nvim';
     'lervag/vimtex', opt=true};      -- Use braces when passing options
     
