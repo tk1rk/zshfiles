@@ -1,6 +1,6 @@
-local o = vim.o
-local wo = vim.wo
-local bo = vim.bo
+local o = vim.o          --global options
+local wo = vim.wo        --window-local options
+local bo = vim.bo        --buffer-local options
 
 -- global options
 o.swapfile = true
