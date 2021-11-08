@@ -8,7 +8,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 -- INIT.LUA --
-require "paq" {
+require "paq-nvim" {
     "savq/paq-nvim";                  -- Let Paq manage itself
     "neovim/nvim-lspconfig";          -- Mind the semi-colons
     "hrsh7th/nvim-compe";
