@@ -8,6 +8,9 @@ github = "b4b4r07/enhancd"
 [plugins.LS_COLORS]
 github = "trapd00r/LS_COLORS"
 
+[plugins.auto-color-ls]
+github = "gretzky/auto-color-ls"
+
 [plugins.lazygit]
 github = "jesseduffield/lazygit"
 
@@ -51,7 +54,7 @@ github = "chrissicool/zsh-bash"
 github = "juanrgon/yadm-zsh"
 
 [plugins.fast-syntax-highlighting]
-github = "zdharma/fast-syntax-highlighting"
+github = "zdharma-continuum/fast-syntax-highlighting"
 
 [plugins.zsh-history-search-multi-word]
 github = "zsh-users/zsh-history-substring-search"
