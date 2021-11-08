@@ -2,6 +2,8 @@ require('settings')    -- lua/settings.lua
 require('maps')        -- lua/maps.lua
 require('statusline')  -- lua/statusline.lua
 
+vim.cmd 'colorscheme material-dracula'
+
 local fn = vim.fn
 
 local install_path = fn.stdpath('data') .. '/site/pack/paqs/start/paq-nvim'
