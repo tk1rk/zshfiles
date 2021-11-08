@@ -39,6 +39,7 @@ require 'paq-nvim' {
 
     'savq/paq-nvim';                  -- Let Paq manage itself
     'neovim/nvim-lspconfig';          -- Mind the semi-colons
+    'williamboman/nvim-lsp-installer';
     'hrsh7th/nvim-compe';
     'junegunn/fzf';
     'junegunn/fzf.vim';  -- to enable preview (optional)
@@ -47,7 +48,9 @@ require 'paq-nvim' {
     'kyazdani42/nvim-web-devicons'
     'ojroques/nvim-lspfuzzy';
     {'ms-jpq/chadtree', branch: 'chad', do: 'python3 -m chadtree deps'}
-
+    'mhinz/vim-startify';
+    'folke/lsp-colors.nvim';
+    'folke/lsp-trouble.nvim'
 
     'ray-x/material_plus.nvim';
     'lervag/vimtex', opt=true};      -- Use braces when passing options
@@ -55,10 +58,17 @@ require 'paq-nvim' {
 }
 
 
+-- general config
 require('settings')    -- lua/settings.lua
 require('maps')        -- lua/maps.lua
 require('statusline')  -- lua/statusline.lua
 require('lspfuzzy').setup {}
+-- plugin specific configs go here
+require('plugin-config/nvim-compe')
+require('plugin-config/nvim-tree')
+require('plugin-config/nvim-treesitter')
+require('plugin-config/lsp-colors')
+require('plugin-config/lsp-trouble')
 
 ---------------
 -- lsp setup --
