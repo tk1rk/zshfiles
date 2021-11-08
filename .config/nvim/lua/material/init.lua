@@ -17,6 +17,7 @@
 local util = require('material.util')
 local theme = require('material.theme')
 
+
 -- Load the theme
 local set = function(theme)
   util.load(theme)
