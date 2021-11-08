@@ -1,5 +1,6 @@
 vim.cmd 'packadd paq-nvim'
 
+
 -- THEME --
 local cmd = vim.cmd
 vim.cmd(':colorscheme material_dracula')
@@ -24,26 +25,31 @@ require 'impatient'
 
 --------------
 -- PAQ-NVIM --
-require "paq-nvim" {
-    "savq/paq-nvim";                  -- Let Paq manage itself
-    "neovim/nvim-lspconfig";          -- Mind the semi-colons
-    "hrsh7th/nvim-compe";
+require 'paq-nvim' {
+
+    'savq/paq-nvim';                  -- Let Paq manage itself
+    'neovim/nvim-lspconfig';          -- Mind the semi-colons
+    'hrsh7th/nvim-compe';
     'junegunn/fzf';
     'junegunn/fzf.vim';  -- to enable preview (optional)
+    'ibhagwan/fzf-lua'
+    'vijaymarupudi/nvim-fzf'
+    'kyazdani42/nvim-web-devicons'
     'ojroques/nvim-lspfuzzy';
     'ray-x/material_plus.nvim';
-    "lervag/vimtex", opt=true};      -- Use braces when passing options
+    'lervag/vimtex', opt=true};      -- Use braces when passing options
+    
 }
 
 
 require('settings')    -- lua/settings.lua
 require('maps')        -- lua/maps.lua
 require('statusline')  -- lua/statusline.lua
-
+require('lspfuzzy').setup {}
 
 ---------------
 -- lsp setup --
--- require('lsp.yaml') shits too noisy
--- require('lsp.lua') it's horrible
+require('lsp.yaml') shits too noisy
+require('lsp.lua') it's horrible
 require('lsp.python')
 require('lsp.go')
