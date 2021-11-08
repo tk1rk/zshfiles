@@ -17,8 +17,9 @@ require "paq-nvim" {
     "savq/paq-nvim";                  -- Let Paq manage itself
     "neovim/nvim-lspconfig";          -- Mind the semi-colons
     "hrsh7th/nvim-compe";
-    paq {'junegunn/fzf'}
-    paq {'junegunn/fzf.vim'}  -- to enable preview (optional)
-    paq {'ojroques/nvim-lspfuzzy'}
-    paq {"lervag/vimtex", opt=true};      -- Use braces when passing options
+    'junegunn/fzf';
+    'junegunn/fzf.vim';  -- to enable preview (optional)
+    'ojroques/nvim-lspfuzzy';
+    'ray-x/material_plus.nvim';
+    "lervag/vimtex", opt=true};      -- Use braces when passing options
 }
