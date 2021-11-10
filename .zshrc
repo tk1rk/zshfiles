@@ -161,26 +161,53 @@ else
   zstyle ':completion:*' list-colors ''
 fi
 
-###;Completions ###
-zstyle ':completion:*' completer _expand _complete _ignored _approximate
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-zstyle ':completion:*' menu select=2
+zmodload -i zsh/complist
+# The following lines were added by compinstall
+
+zstyle -e ':completion:*' completer '
+    if [[ $_last_try != "$HISTNO$BUFFER$CURSOR" ]]; then
+      _last_try="$HISTNO$BUFFER$CURSOR"
+      reply=(_complete _ignored:complete _prefix _complete:full _correct _approximate)
+    else
+      rehash
+      reply=(_complete _ignored:complete _prefix _complete:full _correct _approximate)
+    fi' #'
+zstyle ':completion::prefix:*' completer _complete _ignored:complete
+zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' glob 1
+zstyle ':completion::complete:*:(all-|)files' ignored-patterns '*\~' tags
+zstyle ':completion::complete:*' ignore-parents parent pwd
+zstyle ':completion::complete:rm::(all-|)files' ignored-patterns
+# zstyle ':completion:*' group-name ''
+zstyle ':completion:*' hosts localhost $hosts
+zstyle ':completion:*' urls http://tpo.pe/ http://www.google.com/ https://github.com/
+zstyle ':completion:*' insert-unambiguous true
+# NO NO NO!!! This makes things SLOW
+#zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-colors no=00 fi=00 di=01\;34 pi=33 so=01\;35 bd=00\;35 cd=00\;34 or=00\;41 mi=00\;45 ex=01\;32
+zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
+zstyle ':completion:*' local localhost /var/www public_html
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}'
+zstyle ':completion::full:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|[._-/]=* r:|=* l:|[._-/]=* l:|=*'
+zstyle -e ':completion:*' max-errors 'reply=( $(( ($#PREFIX+$#SUFFIX)/3 )) numeric )'
+zstyle ':completion:*' menu select
+zstyle ':completion:*:(xdvi|xpdf|gv|mpl):*' menu yes select
+zstyle ':completion:*' original true
 zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
-zstyle ':completion:*:descriptions' format '-- %d --'
-zstyle ':completion:*:processes' command 'ps -au$USER'
-zstyle ':completion:complete:*:options' sort false
-zstyle ':fzf-tab:*' query-string prefix first
-zstyle ':fzf-tab:complete:_zlua:*' query-string input
-zstyle ':fzf-tab:*' continuous-trigger '/'
-zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm,cmd -w -w"
-zstyle ':fzf-tab:complete:kill:argument-rest' fzf-flags --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'  # disable for tmux-popup
-zstyle ':fzf-tab:*' switch-group ',' '.'
-zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-zstyle ':fzf-tab:*' popup-pad 0 0
-zstyle ':completion:*:git-checkout:*' sort false
-zstyle ':completion:*:exa' file-sort modification
-zstyle ':completion:*:exa' sort false
+zstyle ':completion:*' substitute 1
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
+zstyle ':completion:*' users tpope root $USER ${watch/notme/}
+zstyle ':completion:*' verbose true
+zstyle ':completion:*:rm:*' ignore-line yes
+zstyle :compinstall filename "$HOME/.zshrc"
+
+autoload -Uz compinit
+compinit -u
+
+### BASH Completions ###
+autoload -Uz bashcompinit
+bashcompinit -u
 
 ###########
 # HISTORY #
@@ -189,14 +216,15 @@ zstyle ':completion:*:exa' sort false
 HISTSIZE=290000
 SAVEHIST=$HISTSIZE
 
-#####################
+P#####################
 # SETOPT            #
 #####################
 setopt extended_history       # record timestamp of command in HISTFILE
 setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
 setopt hist_ignore_all_dups   # ignore duplicated commands history list
 setopt hist_ignore_space      # ignore commands that start with space
-setopt hist_verify            # show command with history expansion to user before running it
+setopt hist_verify            # show command with histor
+Oy expansion to user before running it
 setopt inc_append_history     # add commands to HISTFILE in order of execution
 setopt share_history          # share command history data
 setopt always_to_end          # cursor moved to the end in full completion
@@ -239,10 +267,6 @@ export MANPAGER="nvim -c 'set ft=man' -"
 export WORDCHARS='~!#$%^&*(){}[]<>?.+;'  # sane moving between words on the prompt
 export GPG_TTY=$(tty)
 
-### Completions ###
-autoload -Uz compinit
-compinit
-
 ### BASH Completions ###
 autoload -Uz bashcompinit
 bashcompinit
@@ -255,7 +279,7 @@ colors
 ### EXPORTS ###
 ###############
 ### Path ###
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/.local/share:$HOME/.cargo/bin:$HOME/.cargo/env:$PATH"
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/.local/share:$HOME/.cargo/bin:$HOME/.cargo/env:$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
 ### EDITOR ###
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
