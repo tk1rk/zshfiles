@@ -5,7 +5,7 @@
 ###############################                                                                          
 #!/bin/zsh                                                                                               
                                                                                                          
-! Dracula Xresources palette                                                                                        
+! Dracula Xresources palette                                                                                        q1
 *.foreground: #F8F8F2                                                                                               
 *.background: #282A36                                                                                               
 *.color0: #000000                                                                                                   
