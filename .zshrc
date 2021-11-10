@@ -1,3 +1,4 @@
+export ZSH=$HOME/zsh
 export ZSH_CONFIG=$HOME/zsh
 
 ### ZSH_CACHE_DIR ### 
@@ -54,26 +55,24 @@ fi
 
 ### ZSH SOURCES ###
 typeset -ga sources
-sources+="$ZSH_CONFIG/environment.zsh"
-sources+="$ZSH_CONFIG/options.zsh"
-sources+="$ZSH_CONFIG/prompt.zsh"
+sources+="$ZSH_CONFIG/opt/environment.zsh"
 sources+="$ZSH_CONFIG/functions.zsh"
 sources+="$ZSH_CONFIG/aliases.zsh"
+sources+="$ZSH_CONFIG/auto-color-ls.zsh"
+sources+="$ZSH_CONFIG/bindkeys.zsh"
 
 ### command-not-found ###
 sources+="/etc/zsh_command_not_found"
 
-### COMPLETION ###
-sources+="$ZSH_CONFIG/completion.zsh"
 
 ### git ###
-sources+="$ZSH_CONFIG/git.zsh"
+sources+="$ZSH_CONFIG/opt/git.zsh"
 
 ### FASD ###
-sources+="$ZSH_CONFIG/fasd.zsh"
+sources+="$ZSH_CONFIG/opt/fasd.zsh"
 
 ### fzf integration and config ###
-sources+="$ZSH_CONFIG/fzf.zsh"         
+sources+="$ZSH_CONFIG/opt/fzf.zsh"         
 
 ##### install bat-cat-git #####
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
@@ -161,6 +160,16 @@ else
   zstyle ':completion:*' list-colors ''
 fi
 
+# add in zsh-completions
+fpath = (/usr/share/zsh/zsh-completions $fpath)
+
+autoload -Uz compinit
+compinit -u
+
+### BASH Completions ###
+autoload -Uz bashcompinit
+bashcompinit -u
+
 zmodload -i zsh/complist
 # The following lines were added by compinstall
 
@@ -172,7 +181,7 @@ zstyle -e ':completion:*' completer '
       rehash
       reply=(_complete _ignored:complete _prefix _complete:full _correct _approximate)
     fi' #'
-zstyle ':completion::prefix:*' completer _complete _ignored:complete
+zstyle ':completion::prefix:*' completer _expand _complete _ignored:complete _approximate
 zstyle ':completion:*' format 'Completing %d'
 zstyle ':completion:*' glob 1
 zstyle ':completion::complete:*:(all-|)files' ignored-patterns '*\~' tags
@@ -182,8 +191,8 @@ zstyle ':completion::complete:rm::(all-|)files' ignored-patterns
 zstyle ':completion:*' hosts localhost $hosts
 zstyle ':completion:*' urls http://tpo.pe/ http://www.google.com/ https://github.com/
 zstyle ':completion:*' insert-unambiguous true
-# NO NO NO!!! This makes things SLOW
-#zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# Fallback to built in ls colors
+zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-colors no=00 fi=00 di=01\;34 pi=33 so=01\;35 bd=00\;35 cd=00\;34 or=00\;41 mi=00\;45 ex=01\;32
 zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
 zstyle ':completion:*' local localhost /var/www public_html
@@ -196,18 +205,12 @@ zstyle ':completion:*' original true
 zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
 zstyle ':completion:*' substitute 1
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.zsh/cache
+zstyle ':completion:*' cache-path ~/.zsh/cache/$HOST
 zstyle ':completion:*' users tpope root $USER ${watch/notme/}
 zstyle ':completion:*' verbose true
 zstyle ':completion:*:rm:*' ignore-line yes
 zstyle :compinstall filename "$HOME/.zshrc"
 
-autoload -Uz compinit
-compinit -u
-
-### BASH Completions ###
-autoload -Uz bashcompinit
-bashcompinit -u
 
 ###########
 # HISTORY #
