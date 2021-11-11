@@ -1,4 +1,4 @@
-#! /usr/bin/env zsh
+#!/usr/bin/env zsh
 
 ZLUA_SCRIPT="${0:A:h}/z.lua"
 
