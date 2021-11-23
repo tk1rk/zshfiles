@@ -5,21 +5,6 @@ shell = "zsh"
 [plugins.enhancd]
 github = "b4b4r07/enhancd"
 
-[plugins.LS_COLORS]
-github = "trapd00r/LS_COLORS"
-
-[plugins.auto-color-ls]
-github = "gretzky/auto-color-ls"
-
-[plugins.lazygit]
-github = "jesseduffield/lazygit"
-
-[plugins.lazydocker]
-github = "jesseduffield/lazydocker"
-
-[plugins.zoxide]
-github = "ajeetdsouza/zoxide"
-
 [plugins.fzf]
 github = "junegunn/fzf"
 
@@ -58,3 +43,6 @@ github = "zdharma-continuum/fast-syntax-highlighting"
 
 [plugins.zsh-history-search-multi-word]
 github = "zsh-users/zsh-history-substring-search"
+
+zsh-git zsh-doc-git spaceship-prompt-git zsh-you-should-use gitstatus pacac-zsh-completions zsh-directory-history-git git-completion prll cod-git zsh-abbr zsh-autopair pmy-git zsh-system-clipboard-git zsh-fzy-git zsh-load nvmrc fzf-tab-completion-git histdb-rs neovim-coc-zsh-git zsh-sudo-git zsh-history-search-multi-word-git
+
