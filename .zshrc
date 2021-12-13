@@ -135,45 +135,7 @@ autoload -Uz bashcompinit
 bashcompinit -u
 
 zmodload -i zsh/complist
-# The following lines were added by compinstall
 
-zstyle -e ':completion:*' completer '
-    if [[ $_last_try != "$HISTNO$BUFFER$CURSOR" ]]; then
-      _last_try="$HISTNO$BUFFER$CURSOR"
-      reply=(_complete _ignored:complete _prefix _complete:full _correct _approximate)
-    else
-      rehash
-      reply=(_complete _ignored:complete _prefix _complete:full _correct _approximate)
-    fi' #'
-zstyle ':completion::prefix:*' completer _expand _complete _ignored:complete _approximate
-zstyle ':completion:*' format 'Completing %d'
-zstyle ':completion:*' glob 1
-zstyle ':completion::complete:*:(all-|)files' ignored-patterns '*\~' tags
-zstyle ':completion::complete:*' ignore-parents parent pwd
-zstyle ':completion::complete:rm::(all-|)files' ignored-patterns
-# zstyle ':completion:*' group-name ''
-zstyle ':completion:*' hosts localhost $hosts
-zstyle ':completion:*' urls http://tpo.pe/ http://www.google.com/ https://github.com/
-zstyle ':completion:*' insert-unambiguous true
-# Fallback to built in ls colors
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' list-colors no=00 fi=00 di=01\;34 pi=33 so=01\;35 bd=00\;35 cd=00\;34 or=00\;41 mi=00\;45 ex=01\;32
-zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
-zstyle ':completion:*' local localhost /var/www public_html
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}'
-zstyle ':completion::full:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|[._-/]=* r:|=* l:|[._-/]=* l:|=*'
-zstyle -e ':completion:*' max-errors 'reply=( $(( ($#PREFIX+$#SUFFIX)/3 )) numeric )'
-zstyle ':completion:*' menu select
-zstyle ':completion:*:(xdvi|xpdf|gv|mpl):*' menu yes select
-zstyle ':completion:*' original true
-zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
-zstyle ':completion:*' substitute 1
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.zsh/cache/$HOST
-zstyle ':completion:*' users tpope root $USER ${watch/notme/}
-zstyle ':completion:*' verbose true
-zstyle ':completion:*:rm:*' ignore-line yes
-zstyle :compinstall filename "$HOME/.zshrc"
 
 
 ###########
@@ -182,31 +144,6 @@ zstyle :compinstall filename "$HOME/.zshrc"
 [ -z "$HISTFILE" ] && HISTFILE="$HOME/.zhistory"
 HISTSIZE=290000
 SAVEHIST=$HISTSIZE
-
-P#####################
-# SETOPT            #
-#####################
-setopt extended_history       # record timestamp of command in HISTFILE
-setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
-setopt hist_ignore_all_dups   # ignore duplicated commands history list
-setopt hist_ignore_space      # ignore commands that start with space
-setopt hist_verify            # show command with histor
-Oy expansion to user before running it
-setopt inc_append_history     # add commands to HISTFILE in order of execution
-setopt share_history          # share command history data
-setopt always_to_end          # cursor moved to the end in full completion
-setopt hash_list_all          # hash everything before completion
-setopt completealiases        # complete alisases
-setopt always_to_end          # when completing from the middle of a word, move the cursor to the end of the word
-setopt complete_in_word       # allow completion from within a word/phrase
-setopt nocorrect              # spelling correction for commands
-setopt list_ambiguous         # complete as much of a completion until it gets ambiguous.
-setopt nolisttypes
-setopt listpacked
-setopt automenu
-setopt emacs  # vi            # emacs / vim keybindings
-setopt interactivecomments    # recognize comments
-setopt sharehistory
 
 
 ### BASH Completions ###
