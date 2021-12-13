@@ -15,6 +15,7 @@ alias n="nvim"
 
 ### TERMINAL ###
 export TERM="xterm-256color"
+export COLORTERM="truecolor"
 
 ### LANG ###
 export LC_ALL="en_US.UTF-8"
