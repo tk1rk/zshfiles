@@ -10,6 +10,9 @@ if [[ -z "$ZSH_CACHE_DIR" ]]; then
   ZSH_CACHE_DIR="$ZSH/cache"
 fi
 
+# starship config
+export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
+
 ### Make sure $ZSH_CACHE_DIR is writable, otherwise use a directory in $HOME ###
 if [[ ! -w "$ZSH_CACHE_DIR" ]]; then
   ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/oh-my-zsh"
