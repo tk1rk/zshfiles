@@ -27,6 +27,7 @@ if [[ -z "$ZSH_CUSTOM" ]]; then
     ZSH_CUSTOM="$ZSH/custom"
 fi
 
+
 is_plugin() {
   local base_dir=$1
   local name=$2
@@ -52,6 +53,15 @@ else
   compinit -C -i
 fi
 
+# fish like Auto suggestion
+autoload predict-on
+predict-toggle() {
+  ((predict_on=1-predict_on)) && predict-on || predict-off
+}
+zle -N predict-toggle
+bindkey '^Z'   predict-toggle
+zstyle ':predict' toggle true
+zstyle ':predict' verbose true
 
 ### ZSH SOURCES ###
 typeset -ga sources
