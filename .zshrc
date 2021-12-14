@@ -1,6 +1,10 @@
 export ZSH=$HOME/zsh
 export ZSH_CONFIG=$HOME/zsh
 
+# fish like autosuggestions
+autoload predict-on
+predict-on
+
 ### ZSH_CACHE_DIR ### 
 if [[ -z "$ZSH_CACHE_DIR" ]]; then
   ZSH_CACHE_DIR="$ZSH/cache"
