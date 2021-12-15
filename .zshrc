@@ -1,29 +1,22 @@
-export ZSH=$HOME/zsh
-export ZSH_CONFIG=$HOME/zsh
-
-# fish like autosuggestions
-autoload predict-on
-predict-on
+#!/usr/bin/env zsh
+export ZSH_CONFIG=$HOME/.zsh
 
 ### ZSH_CACHE_DIR ### 
 if [[ -z "$ZSH_CACHE_DIR" ]]; then
-  ZSH_CACHE_DIR="$ZSH/cache"
+  ZSH_CACHE_DIR="$ZSH_CONFIG/cache"
 fi
 
 # starship config
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 
-### Make sure $ZSH_CACHE_DIR is writable, otherwise use a directory in $HOME ###
+### Make sure $ZSH_CACHE_DIR is writable
 if [[ ! -w "$ZSH_CACHE_DIR" ]]; then
-  ZSH_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/oh-my-zsh"
+  ZSH_CACHE_DIR="$ZSH_CONFIG/.cache/"
 fi
 
 ### Create cache and completions dir and add to $fpath ###
 mkdir -p "$ZSH_CACHE_DIR/completions"
 (( ${fpath[(Ie)"$ZSH_CACHE_DIR/completions"]} )) || fpath=("$ZSH_CACHE_DIR/completions" $fpath)
-
-### function path ###
-fpath=($ZSH/functions $ZSH/completions $fpath)
 
 ### Load all stock functions (from $fpath files) ###
 autoload -U compaudit compinit
@@ -31,16 +24,11 @@ autoload -U compaudit compinit
 ### ZSH_CUSTOM ###
 # and plugins exists, or else we will use the default custom/
 if [[ -z "$ZSH_CUSTOM" ]]; then
-    ZSH_CUSTOM="$ZSH/custom"
+    ZSH_CUSTOM="$ZSH_CONFIG/custom"
 fi
 
 
-is_plugin() {
-  local base_dir=$1
-  local name=$2
-  builtin test -f $base_dir/plugins/$name/$name.plugin.zsh \
-    || builtin test -f $base_dir/plugins/$name/_$name
-}
+
 
 ### Add all defined plugins to fpath. This must be done ###
 ### before running compinit. ###
