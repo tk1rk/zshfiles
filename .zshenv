@@ -1,16 +1,8 @@
-                                                                                                         
-                                                                                                         
-###############################                                                                          
-# EXPORT ENVIRONMENT VARIABLE #                                                                          
-###############################                                                                          
 #!/bin/zsh                                                                                               
-                                                                                                         
-###############################                                                                          
-# EXPORT ENVIRONMENT VARIABLE #                                                                          
-###############################                                                                          
+                                                                                                                                                                                 
                                                                                                          
 export TERM='xterm-256color'                                                                             
-export HOME='/home/tay'                                                                                  
+export HOME='/home/tk'                                                                                  
                                                                                                                                                                                                                                                                                                                                                                                                                        
 # editor                                                                                                 
 export EDITOR="nvim"                                                                                     
@@ -27,8 +19,8 @@ export PATH="$HOME/.local/bin:$PAT
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME=$HOME/.local/share
 export XDG_CACHE_HOME="$HOME/.cache"
-export ZSH_CONFIG="$XDG_CONFIG_HOME/zsh"
-export ZSH_CUSTOM="$XDG_CONFIG_HOME/zsh/custom"
+export ZSH_CONFIG="$XDG_CONFIG_HOME/.zsh"
+export ZSH_CUSTOM="$XDG_CONFIG_HOME/.zsh/custom"
 export ZSH_CACHE="$XDG_CACHE_HOME/zsh"
 mkdir -p {$ZSH_CACHE,$ZSH_CUSTOM}
 
@@ -49,11 +41,6 @@ export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/.local/share:$
 ### EDITOR ###
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
-alias vim="nvim"
-alias vi="nvim"
-alias v="nvim"
-alias nv="nvim"
-alias n="nvim"
 
 ### TERMINAL ###
 export TERM="xterm-256color"
