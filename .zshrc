@@ -1,13 +1,9 @@
 #!/usr/bin/env zsh
-export ZSH_CONFIG=$HOME/.zsh
 
 ### ZSH_CACHE_DIR ### 
 if [[ -z "$ZSH_CACHE_DIR" ]]; then
   ZSH_CACHE_DIR="$ZSH_CONFIG/cache"
 fi
-
-# starship config
-export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 
 ### Make sure $ZSH_CACHE_DIR is writable
 if [[ ! -w "$ZSH_CACHE_DIR" ]]; then
@@ -26,9 +22,6 @@ autoload -U compaudit compinit
 if [[ -z "$ZSH_CUSTOM" ]]; then
     ZSH_CUSTOM="$ZSH_CONFIG/custom"
 fi
-
-
-
 
 ### Add all defined plugins to fpath. This must be done ###
 ### before running compinit. ###
@@ -69,7 +62,6 @@ sources+="$ZSH_CONFIG/bindkeys.zsh"
 ### command-not-found ###
 sources+="/etc/zsh_command_not_found"
 
-
 ### git ###
 sources+="$ZSH_CONFIG/opt/git.zsh"
 
@@ -78,12 +70,6 @@ sources+="$ZSH_CONFIG/opt/fasd.zsh"
 
 ### fzf integration and config ###
 sources+="$ZSH_CONFIG/opt/fzf.zsh"         
-
-##### install bat-cat-git #####
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-man 2 select
-
-#####
 
 ### AUTOSUGGESTIONS, TRIGGER PRECMD HOOK UPON LOAD ###
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
@@ -109,9 +95,6 @@ zstyle ':zim:ssh' ids 'id_rsa' 'id_ecdsa' 'id_ed25519'
 
 ### make sure zsh-autosuggestions does't interfere ###
 ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(expand-or-complete bracketed-paste accept-line push-line-or-edit)
-
-### enhancd ###
-export ENHANCD_FILTER=fzf:fzy:peco
 
 ### History Substring Search ###
 bindkey '^[[A' history-substring-search-up
@@ -141,8 +124,6 @@ bashcompinit -u
 
 zmodload -i zsh/complist
 
-
-
 ###########
 # HISTORY #
 ###########
@@ -159,24 +140,6 @@ bashcompinit
 autoload -U colors
 colors
 
-###############
-### EXPORTS ###
-###############
-### Path ###
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/.local/share:$HOME/.cargo/bin:$HOME/.cargo/env:$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
-### EDITOR ###
-export EDITOR="nvim"
-export VISUAL="$EDITOR"
-alias vim="nvim"
-alias vi="nvim"
-alias v="nvim"
-alias nv="nvim"
-alias n="nvim"
-### TERMINAL ###
-export TERM="xterm-256color"
-### LANG ###
-export LC_ALL="en_US.UTF-8"
-export LANG="en_US.UTF-8"
 
 ### Aliases ###
 if [ -f ~/.zsh_aliases ]; then
@@ -270,11 +233,6 @@ if [ "$TERM" = "linux" ]; then
     printf %b '\e]PFffffff'    # redefine 'bright-white'   as '#ffffff'
     clear
 fi
-
-###################
-### Dracula FZF ###
-######$$$$$$$$$$$$$
-export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
 
 ###################
 ### Dracula Ra ###
