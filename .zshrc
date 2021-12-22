@@ -79,6 +79,49 @@ autoload -U url-quote-magic bracketed-paste-magic
 zle -N self-insert url-quote-magic
 zle -N bracketed-paste bracketed-paste-magic
 
+Add new Zsh Completions repo
+fpath=(~/.zsh/completions/src $fpath)
+
+# Unfortunately, ^L makes the first line disappear. We can fix that by making
+# our own clear-screen function.
+clear-screen-and-precmd() {
+  clear
+  zle redisplay
+  precmd
+}
+zle -N clear-screen-and-precmd
+
+# This is the easiest way to get a newline. SRSLY.
+local __newline="
+
+# Unicode looks cool.
+if [ "$EUID" = "0" ]; then
+  __sigil="# "
+elif `echo $LANG | grep -E -i 'utf-?8' &>/dev/null`; then
+  __sigil="〉"
+else
+  __sigil="%# "
+fi
+
+if [ -n "$SUDO_USER" ]; then
+  colorprompt '33;1'
+else
+  colorprompt
+fi
+
+# fzf via local installation
+if [ -e ~/.fzf ]; then
+  _append_to_path ~/.fzf/bin
+  source ~/.fzf/shell/key-bindings.zsh
+  source ~/.fzf/shell/completion.zsh
+fi
+
+# fzf/rg
+if _has rg; then
+  export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+fi
+
+
 ### Now the fix, setup these two hooks: ###
 pasteinit() {
   OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
