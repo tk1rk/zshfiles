@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/bin/zsh
 
 ### ZSH_CACHE_DIR ### 
 if [[ -z "$ZSH_CACHE_DIR" ]]; then
