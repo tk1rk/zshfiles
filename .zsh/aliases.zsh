@@ -1,16 +1,9 @@
 # General
-alias ls='colorls'
 alias python='python3'
 alias pip='pip3'
 alias config='cd $HOME/.config'
 alias bin='cd $HOME/.local/bin'
-alias share='cd $HOME/.local/share'
-
-alias up='sudo apt update -y'                                                                                       
-alias aa='sudo apt autoremove -y'                                                                                   
-alias ai='sudo apt install -y'                                                                                      
-alias ar='sudo apt remove --purge -y'                                                                               
-alias as='sudo apt-cache search'                                                                                    
+alias share='cd $HOME/.local/share'                                                                       
 alias rm='rm -rf'                                                                                                   
 alias chx='chmod +x'                                                                                                
 alias chr='sudo chown -R root:root'                                                                                 
@@ -29,6 +22,51 @@ alias zrc='nvim $HOME/.zshrc'
 alias vi='nvim'
 alias vim='nvim'
 
+alias nerdcrap='bat /dev/urandom | xxd | grep --color=never --line-buffered "be ef"'
+alias pt='pstree -pul'
+alias randnum='python -S -c "import random; print(random.SystemRandom().randrange(10**7,10**8))"'
+alias randpass="openssl rand -base64 12 | tr -d '\n'"
+
+alias rsync-usual='rsync -azv -e ssh --delete --progress'
+alias scp='scp -C -p'
+alias screen='screen -U'
+alias slurp='wget -t 5 -c -nH -r -k -p -N --no-parent'
+alias tt='tail -n 9999'
+alias vb=VBoxManage
+alias vh=VBoxHeadless
+alias whois='whois -h geektools.com'
+alias wip='git add -A ; git commit --all --no-verify -m WIP'
+alias y='yarn'
+alias ye='yarn exec'
+
+# Interactive/verbose commands.
+alias mv='mv -i'
+for c in cp rm chmod chown rename; do
+  alias $c="$c -v"
+done
+
+# Use GNU du if available
+if _has gdu; then
+  alias du=gdu
+  dut() { du -a -h --exclude=.git $@ * .* | sort -rh | head -n 20 }
+else
+  dut() { du -h $@ * .* | sort -rh | head -n 20 }
+fi
+
+# open command for linux
+if ! _has open && _has xdg-open; then
+  alias open=xdg-open
+fi
+, 
+# Humanize disk space if possible
+if _try df -H ~; then
+  alias df='df -H'
+elif _try df -h ~; then
+  alias df='df -h'
+fi
+
+
+
 # git
 alias gcl='git clone --depth 1'
 alias gi='git init'
@@ -39,24 +77,6 @@ alias gp='git push origin master'
 # Auto-completion
 alias up=" nmcli con up id"
 alias down=" nmcli con down id"
-
-### APT ###
-LSB_DISTRIBUTOR=`lsb_release -i -s`
-# debian and ubuntu specific aliases
-## autocomplete-able apt-xxx aliases
-if [[ "$LSB_DISTRIBUTOR" == "Ubuntu" ]]; then
-    alias acs='apt-cache show'
-    alias agi='sudo apt-get install'
-    alias ag='sudo apt-get'
-    alias agu='sudo apt-get update'
-    alias agug='sudo apt-get upgrade'
-    alias aguu='agu && agug'
-    alias agr='sudo apt-get uninstall'
-    alias agp='sudo apt-get purge'
-    alias aga='sudo apt-get autoremove'
-    alias ctl='sudo service '
-    alias feierabend='sudo shutdown -h now'
-fi
 
 # arch linux with systemd aliases
 if [[ "$LSB_DISTRIBUTOR" == "archlinux" ]]; then
