@@ -1,18 +1,8 @@
-#!/use/bin/env zsh
+#!/bin/zsh
 
-# To see the key combo you want to use: cat > /dev/null
-# & press it
-
-bindkey "^K"      kill-whole-line                      # ctrl-k
-bindkey "^R"      history-incremental-search-backward  # ctrl-r
-bindkey "^A"      beginning-of-line                    # ctrl-a
-bindkey "^E"      end-of-line                          # ctrl-e
-bindkey "[B"      history-search-forward               # down arrow
-bindkey "[A"      history-search-backward              # up arrow
-bindkey "^D"      delete-char                          # ctrl-d
-bindkey "^F"      forward-char                         # ctrl-f
-bindkey "^B"      backward-char                        # ctrl-b
-bindkey -e   # Default to standard emacs bindings, regardless of editor stringeb
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+zle -N edit-command-line
 
 # fuzzy find: start to type
 bindkey "$terminfo[kcuu1]" up-line-or-beginning-search
@@ -26,6 +16,12 @@ bindkey '^[b' backward-word
 bindkey '^[^[[C' forward-word
 bindkey '^[f' forward-word
 
+# to to the beggining/end of line with fn+left/right or home/end
+bindkey "${terminfo[khome]}" beginning-of-line
+bindkey '^[[H' beginning-of-line
+bindkey "${terminfo[kend]}" end-of-line
+bindkey '^[[F' end-of-line
+
 # delete char with backspaces and delete
 bindkey '^[[3~' delete-char
 bindkey '^?' backward-delete-char
@@ -34,10 +30,19 @@ bindkey '^?' backward-delete-char
 bindkey '^[[3;5~' backward-delete-word
 # bindkey '^[[3~' backward-delete-word
 
+# edit command line in $EDITOR
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^e' edit-command-line
 
-# Load menu-style completion.
-zmodload -i zsh/complist
-bindkey -M menuselect '^M' accept
+# search history with fzf if installed, default otherwise
+if test -d /usr/local/opt/fzf/shell; then
+	# shellcheck disable=SC1091
+	. /usr/local/opt/fzf/shell/key-bindings.zsh
+else
+	bindkey '^R' history-incremental-search-backward
+fi
+
 
 # Show dots while waiting to complete. Useful for systems with slow net access,
 # like those places where they use giant, slow NFS solutions. (Hint.)
@@ -78,12 +83,6 @@ bindkey -s "\el" "^E 2>&1|less^M"
 
 # This lets me use ^Z to toggle between open text editors.
 bindkey -s '^Z' '^Ufg^M'
-
-# More custom bindings
-bindkey "^O" copy-prev-shell-word
-bindkey "^Q" push-line
-bindkey "^T" history-incremental-search-forward
-bindkey "ESC-." insert-last-word
 
 # Edit the current command line with Meta-e
 autoload -U edit-command-line
