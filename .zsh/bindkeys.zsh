@@ -4,6 +4,9 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 zle -N edit-command-line
 
+zle -N zle-keymap-select 
+auto-fu-zle-keymap-select
+
 ### History Substring Search ###
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
