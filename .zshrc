@@ -62,6 +62,10 @@ sources+="$ZSH_CONFIG/bindkeys.zsh"
 ### command-not-found ###
 sources+="/etc/zsh_command_not_found"
 
+# auto-fu
+export A="$HOME/.zsh/opt/auto-fu.zsh"
+zsh -c "source $A ; auto-fu-zcompile $A ~/.zsh"
+
 ### git ###
 sources+="$ZSH_CONFIG/opt/git.zsh"
 
@@ -191,8 +195,8 @@ if [ -f ~/.functions.zsh ]; then
 fi
 
 ###################
-### Dracula Ra ###
-######$$$$$$$$$$$$$
+### Dracula Ranger ####
+###################
 
 ###############
 ### Sheldon ###
