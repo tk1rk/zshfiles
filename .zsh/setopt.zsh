@@ -23,14 +23,7 @@ unsetopt HIST_BEEP
 
 # Share your history across all your terminal windows
 setopt share_history
-#setopt noclobber
-
-# Keep a ton of history. You can override these without editing .zshrc by
-# adding a file to ~/.zshrc.d that changes these variables.
-HISTSIZE=100000
-SAVEHIST=100000
-HISTFILE=~/.zsh_history
-export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
+#setopt nocl
 
 # Set some options about directories
 setopt pushd_ignore_dups
