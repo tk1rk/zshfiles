@@ -53,7 +53,7 @@ zstyle ':predict' verbose true
 
 ### ZSH SOURCES ###
 typeset -ga sources
-sources+="$ZSH_CONFIG/opt/environment.zsh"
+sources+="$ZSH_CONFIG/environment.zsh"
 sources+="$ZSH_CONFIG/functions.zsh"
 sources+="$ZSH_CONFIG/aliases.zsh"
 sources+="$ZSH_CONFIG/auto-color-ls.zsh"
@@ -63,14 +63,14 @@ sources+="$ZSH_CONFIG/bindkeys.zsh"
 sources+="/etc/zsh_command_not_found"
 
 # auto-fu
-export A="$HOME/.zsh/opt/auto-fu.zsh"
+export A="$HOME/.zsh/auto-fu.zsh"
 zsh -c "source $A ; auto-fu-zcompile $A ~/.zsh"
 
 ### git ###
-sources+="$ZSH_CONFIG/opt/git.zsh"
+sources+="$ZSH_CONFIG/git.zsh"
 
 ### FASD ###
-sources+="$ZSH_CONFIG/opt/fasd.zsh"
+sources+="$ZSH_CONFIGfasd.zsh"
 
 ### fzf integration and config ###
 sources+="$ZSH_CONFIG/opt/fzf.zsh"         
@@ -143,12 +143,6 @@ zstyle ':zim:ssh' ids 'id_rsa' 'id_ecdsa' 'id_ed25519'
 ### make sure zsh-autosuggestions does't interfere ###
 ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(expand-or-complete bracketed-paste accept-line push-line-or-edit)
 
-### History Substring Search ###
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
-
 ### .dircolors ###
 if whence dircolors >/dev/null; then
   eval "$(dircolors -b)"
@@ -159,11 +153,6 @@ else
   zstyle ':completion:*' list-colors ''
 fi
 
-# add in zsh-completions
-fpath = (/usr/share/zsh/zsh-completions $fpath)
-
-autoload -Uz compinit
-compinit -u
 
 ### BASH Completions ###
 autoload -Uz compinit bashcompinit
