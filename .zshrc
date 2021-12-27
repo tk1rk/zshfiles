@@ -1,4 +1,8 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
+
+#env
+export ZSH_CONFIG="$HOME/.zsh"
+export ZSH_CACHE_DIR="$HOME/.cache/zsh"
 
 ### ZSH_CACHE_DIR ### 
 if [[ -z "$ZSH_CACHE_DIR" ]]; then
@@ -13,9 +17,6 @@ fi
 ### Create cache and completions dir and add to $fpath ###
 mkdir -p "$ZSH_CACHE_DIR/completions"
 (( ${fpath[(Ie)"$ZSH_CACHE_DIR/completions"]} )) || fpath=("$ZSH_CACHE_DIR/completions" $fpath)
-
-### Load all stock functions (from $fpath files) ###
-autoload -U compaudit compinit
 
 ### ZSH_CUSTOM ###
 # and plugins exists, or else we will use the default custom/
@@ -70,10 +71,10 @@ zsh -c "source $A ; auto-fu-zcompile $A ~/.zsh"
 sources+="$ZSH_CONFIG/git.zsh"
 
 ### FASD ###
-sources+="$ZSH_CONFIGfasd.zsh"
+sources+="$ZSH_CONFIG/fasd.zsh"
 
 ### fzf integration and config ###
-sources+="$ZSH_CONFIG/opt/fzf.zsh"         
+sources+="$ZSH_CONFIG/fzf.zsh"         
 
 ### AUTOSUGGESTIONS, TRIGGER PRECMD HOOK UPON LOAD ###
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
@@ -147,12 +148,17 @@ ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(expand-or-complete bracketed-paste accept-line p
 if whence dircolors >/dev/null; then
   eval "$(dircolors -b)"
   zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-  alias ls='ls --color'
+  alias ls='lsd -la'
+
 else
   export CLICOLOR=1
   zstyle ':completion:*' list-colors ''
 fi
 
+zmodload -i zsh/complist
+
+autoload -U compinstall
+compinstall
 
 ### BASH Completions ###
 autoload -Uz compinit bashcompinit
@@ -163,14 +169,6 @@ bashcompinit -u
 autoload -U colors
 colors
 
-zmodload -i zsh/complist
-
-###########
-# HISTORY #
-###########
-[ -z "$HISTFILE" ] && HISTFILE="$HOME/.zhistory"
-HISTSIZE=290000
-SAVEHIST=$HISTSIZE
 
 
 ### Aliases ###
