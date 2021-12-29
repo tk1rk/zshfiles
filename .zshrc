@@ -1,5 +1,59 @@
 #!/usr/bin/env zsh
 
+#!/bin/zsh
+
+# Clone zcomet if necessary
+if [[ ! -f ${ZDOTDIR:-${HOME}}/.zcomet/bin/zcomet.zsh ]]; then
+  command git clone https://github.com/agkozak/zcomet.git ${ZDOTDIR:-${HOME}}/.zcomet/bin
+fi
+
+source ${ZDOTDIR:-${HOME}}/.zcomet/bin/zcomet.zsh
+
+# Load a prompt
+zcomet load 
+
+# Load some plugins
+zcomet load chrissicool/zsh-256color
+zcomet load chrissicool/zsh-bash
+zcomet load mafredri/zsh-async
+zcomet load hchbaw/auto-fu.zsh
+zcomet load redxtech/zsh-asdf-direnv
+zcomet load mafredri/zsh-async
+zcomet load skywind3000/z.lua
+zcomet load ohmyzsh plugins/gitfast
+zcomet load marlonrichert/zsh-autocomplete
+zcomet load hlissner/zsh-autopair
+zcomet load zuxfoucault/colored-man-pages_mod
+zcomet load wookayin/fzf-fasd
+zcomet load joshskidmore/zsh-fzf-history-search
+zcomet load Aloxaf/fzf-tab
+zcomet load larkery/zsh-histdb
+
+#prompt
+zcomet fpath romkatv/powerlevel10k
+autoload promptinit; promptinit
+prompt powerlevel10k
+
+# Load a code snippet - no need to download an entire repo
+zcomet snippet https://github.com/jreese/zsh-titles/blob/master/titles.plugin.zsh
+
+# Lazy-load some plugins
+zcomet trigger zhooks agkozak/zhooks
+zcomet trigger zsh-prompt-benchmark romkatv/zsh-prompt-benchmark
+
+# Lazy-load Prezto's archive module without downloading all of Prezto's
+# submodules
+zcomet trigger --no-submodules archive unarchive lsarchive \
+    sorin-ionescu/prezto modules/archive
+
+# It is good to load these popular plugins last, and in this order:
+zcomet load zdharma-continuum/fast-syntax-highlighting
+zcomet load zsh-users/zsh-autosuggestions
+zcomet load zsh-users/zsh-history-substring-search
+
+# Run compinit and compile its cache
+zcomet compinit
+
 #env
 export ZSH_CONFIG="$HOME/.zsh"
 export ZSH_CACHE_DIR="$HOME/.cache/zsh"
@@ -57,7 +111,7 @@ typeset -ga sources
 sources+="$ZSH_CONFIG/environment.zsh"
 sources+="$ZSH_CONFIG/functions.zsh"
 sources+="$ZSH_CONFIG/aliases.zsh"
-sources+="$ZSH_CONFIG/auto-color-ls.zsh"
+sources+="$ZSH_CONF+!IG/auto-color-ls.zsh"
 sources+="$ZSH_CONFIG/bindkeys.zsh"
 
 ### command-not-found ###
@@ -84,7 +138,7 @@ autoload -U url-quote-magic bracketed-paste-magic
 zle -N self-insert url-quote-magic
 zle -N bracketed-paste bracketed-paste-magic
 
-Add new Zsh Completions repo
+# Add new Zsh Completions repo
 fpath=(~/.zsh/completions/src $fpath)
 
 # Unfortunately, ^L makes the first line disappear. We can fix that by making
@@ -155,21 +209,9 @@ else
   zstyle ':completion:*' list-colors ''
 fi
 
-zmodload -i zsh/complist
-
-autoload -U compinstall
-compinstall
-
-### BASH Completions ###
-autoload -Uz compinit bashcompinit
-compinit -u
-bashcompinit -u
-
 # Colors
 autoload -U colors
 colors
-
-
 
 ### Aliases ###
 if [ -f ~/.aliases.zsh ]; then
