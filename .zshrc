@@ -16,18 +16,17 @@ zcomet load
 zcomet load chrissicool/zsh-256color
 zcomet load chrissicool/zsh-bash
 zcomet load mafredri/zsh-async
-zcomet load hchbaw/auto-fu.zsh
 zcomet load redxtech/zsh-asdf-direnv
 zcomet load mafredri/zsh-async
 zcomet load skywind3000/z.lua
-zcomet load ohmyzsh plugins/gitfast
+zcomet load ohmyzsh plugins/git
+zcomet load ohmyzsh plugins/extract
 zcomet load marlonrichert/zsh-autocomplete
 zcomet load hlissner/zsh-autopair
 zcomet load zuxfoucault/colored-man-pages_mod
 zcomet load wookayin/fzf-fasd
 zcomet load joshskidmore/zsh-fzf-history-search
 zcomet load Aloxaf/fzf-tab
-zcomet load larkery/zsh-histdb
 
 #prompt
 zcomet fpath romkatv/powerlevel10k
@@ -236,16 +235,6 @@ eval "$(sheldon source)"
 ### Cargo ###
 #############
 source $HOME/.cargo/env
-
-################
-### Starship ###
-################
-eval "$(starship init zsh)"
-
-##############
-### Zoxide ###
-##############
-eval "$(zoxide init zsh)"
 
 ################
 ### Neofetch ###
