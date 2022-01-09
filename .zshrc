@@ -110,7 +110,6 @@ typeset -ga sources
 sources+="$ZSH_CONFIG/environment.zsh"
 sources+="$ZSH_CONFIG/functions.zsh"
 sources+="$ZSH_CONFIG/aliases.zsh"
-sources+="$ZSH_CONF+!IG/auto-color-ls.zsh"
 sources+="$ZSH_CONFIG/bindkeys.zsh"
 
 ### command-not-found ###
