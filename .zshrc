@@ -1,4 +1,4 @@
-#!usr/bin/env zsh
+#!/usr/bin/env zsh
 
 # Helps zinit select correct remote binaries
 case "$OSTYPE" in
