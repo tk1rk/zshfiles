@@ -1,15 +1,32 @@
-#!/usr/bin/env zsh
+#!usr/bin/env zsh
 
+# Helps zinit select correct remote binaries
+case "$OSTYPE" in
+  linux*) bpick='*((#s)|/)*(linux|musl)*((#e)|/)*' ;;
+  darwin*) bpick='*(macos|darwin)*' ;;
+  *) echo 'WARN: unsupported system -- some cli programs might not work' ;;
+esac
+
+### ZSH SOURCES ###
+typeset -ga sources
+sources+="$ZSH_CONFIG/functions.zsh"
+sources+="$ZSH_CONFIG/aliases.zsh"
+sources+="$ZSH_CONFIG/completion.zsh"
+autoload -U colors
+colors
+
+typeset -F4 SECONDS=0
 ### Added by Zinit's installer              
-if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then \                      
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"  \               
-    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit" \             
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \           
-    print -P "%F{33} %F{34}Installation successful.%f%b" || \              
-    print -P "%F{160} The clone has failed.%f%b"                              
+if [[ ! -f $ZDOTDIR/zinit/bin/zinit.zsh ]]; then \      
+    command mkdir -p "$ZDOTDIR/zinit/bin/" && command chmod g-rwX "$ZDOTDIR/zinit/bin/" \             
+    command git clone https://github.com/zdharma-continuum/zinit "$ZDOTDIR/zinit/bin/zinit.git"
 fi                                        
 
-source "$HOME/.zinit/bin/zinit.zsh"
+typeset -A ZINIT
+ZINIT[HOME_DIR]=$ZINIT_HOME
+ZINIT[ZCOMPDUMP_PATH]=$XDG_CACHE_HOME/zsh/zcompdump
+ZINIT[COMPLETIONS_DIR]=$XDG_CACHE_HOME
+source "$ZDOTDIR/zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit's installer chunk       
@@ -20,7 +37,11 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-bin-gem-node \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-submods \
-    zdharma-continuum/zinit-annex-rust          
+    zdharma-continuum/zinit-annex-rust  
+    
+# Caches slow commands
+zinit light NICHOLAS85/z-a-eval 
+
 #####################
 # PROMPT            #
 #####################
@@ -66,11 +87,17 @@ zinit snippet OMZP::
 
 
 ### Programs 
-# junegunn/fzf-bin
-zinit pack for \
-    doctoc \
-    fzf \
-    ls_colors \
+# doctoc
+zinit pack for doctoc
+
+# fzf
+zinit pack for fzf
+
+# ls_colors
+zinit pack for ls_colors
+
+# pyenv
+zinit pack"bgn" git for pyenv
 
 # sharkdp/fd
 zinit ice as"command" from"gh-r" mv"fd* -> fd" pick"fd/fd"
@@ -84,9 +111,6 @@ zinit light sharkdp/bat
 zinit ice wait"2" lucid from"gh-r" as"program" mv"exa* -> exa"
 zinit light ogham/exa
 
-# lsd
-zinit ice wait"2" lucid from"gh-r" as"propgram" mv"lsdb:nn *
-
 # All of the above using the for-syntax and also z-a-bin-gem-node annex
 zinit wait"1" lucid from"gh-r" as"null" for \
      sbin"fzf"          junegunn/fzf-bin \
@@ -94,9 +118,6 @@ zinit wait"1" lucid from"gh-r" as"null" for \
      sbin"**/bat"       @sharkdp/bat \
      sbin"exa* -> exa"  ogham/exa
 
-# jarun/nnn, a file browser, using the for-syntax
-zinit pick"misc/quitcd/quitcd.zsh" sbin make light-mode for \
-    jarun/nnn
 
 zinit ice as"program" atclone"rm -f src/auto/config.cache; ./configure" \
     atpull"%atclone" make pick"src/nvim"
@@ -105,12 +126,6 @@ zinit light neovim/neovim
 zinit ice as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
     atpull'%atclone' pick"direnv" src"zhook.zsh" for \
         direnv/direnv
-  
-zinit ice as"program" pick"$ZPFX/sdkman/bin/sdk" id-as"sdkman" run-atpull \
-    atclone"wget https://get.sdkman.io/?rcupdate=false -O scr.sh; SDKMAN_DIR=$ZPFX/sdkman bash scr.sh" \
-    atpull"SDKMAN_DIR=$ZPFX/sdkman sdk selfupdate" \
-    atinit"export SDKMAN_DIR=$ZPFX/sdkman; source $ZPFX/sdkman/bin/sdkman-init.sh" \
-zinit light zdharma-continuum/null
 
 # Installation of Rust compiler environment via the z-a-rust annex
 zinit id-as"rust" wait=1 as=null sbin="bin/*" lucid rustup \
@@ -122,9 +137,4 @@ zinit id-as"rust" wait=1 as=null sbin="bin/*" lucid rustup \
 # This one is to be ran just once, in interactive session.
 zinit creinstall %HOME/.zsh/cache/completions
 
-# Load starship theme
-zinit ice as"command" from"gh-r" \ 
-  atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \ 
-  atpull"%atclone" src"init.zsh" 
-zinit light starship/starship
 ### End of Zinit's installer chunk
