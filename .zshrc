@@ -1,172 +1,130 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 
-### ZSH_CACHE_DIR ### 
-if [[ -z "$ZSH_CACHE_DIR" ]]; then
-  ZSH_CACHE_DIR="$ZSH_CONFIG/cache"
-fi
+### Added by Zinit's installer              
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then \                      
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"  \               
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit" \             
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \           
+    print -P "%F{33} %F{34}Installation successful.%f%b" || \              
+    print -P "%F{160} The clone has failed.%f%b"                              
+fi                                        
 
-### Make sure $ZSH_CACHE_DIR is writable
-if [[ ! -w "$ZSH_CACHE_DIR" ]]; then
-  ZSH_CACHE_DIR="$ZSH_CONFIG/.cache/"
-fi
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+### End of Zinit's installer chunk       
 
-### Create cache and completions dir and add to $fpath ###
-mkdir -p "$ZSH_CACHE_DIR/completions"
-(( ${fpath[(Ie)"$ZSH_CACHE_DIR/completions"]} )) || fpath=("$ZSH_CACHE_DIR/completions" $fpath)
-
-### Load all stock functions (from $fpath files) ###
-autoload -U compaudit compinit
-
-### ZSH_CUSTOM ###
-# and plugins exists, or else we will use the default custom/
-if [[ -z "$ZSH_CUSTOM" ]]; then
-    ZSH_CUSTOM="$ZSH_CONFIG/custom"
-fi
-
-### Add all defined plugins to fpath. This must be done ###
-### before running compinit. ###
-for plugin ($plugins); do
-  if is_plugin $ZSH_CUSTOM $plugin; then
-    fpath=($ZSH_CUSTOM/plugins/$plugin $fpath)
-  elif is_plugin $ZSH $plugin; then
-    fpath=($ZSH/plugins/$plugin $fpath)
-  fi
-done
-
-### ZCOMP ###
-typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
-if [ $(date +'%j') != $updated_at ]; then
-  compinit -i
-else
-  compinit -C -i
-fi
-
-### ZSH SOURCES ###
-typeset -ga sources
-sources+="ZSH_CONFIG/completion.zsh"
-_comp_options+=(globdots)
-sources+="$ZSH_CONFIG/environment.zsh"
-sources+="$ZSH_CONFIG/functions.zsh"
-sources+="$ZSH_CONFIG/aliases.zsh"
-sources+="$ZSH_CONFIG/auto-color-ls.zsh"
-sources+="$ZSH_CONFIG/bindkeys.zsh"
-
-### command-not-found ###
-sources+="/etc/zsh_command_not_found"
-
-### git ###
-sources+="$ZSH_CONFIG/opt/git.zsh"
-
-### FASD ###
-sources+="$ZSH_CONFIG/opt/fasd.zsh"
-
-### fzf integration and config ###
-sources+="$ZSH_CONFIG/opt/fzf.zsh"         
-
-### AUTOSUGGESTIONS, TRIGGER PRECMD HOOK UPON LOAD ###
-ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-
-### load url-quote-magic and bracketed-paste-magic ###
-autoload -U url-quote-magic bracketed-paste-magic
-zle -N self-insert url-quote-magic
-zle -N bracketed-paste bracketed-paste-magic
-
-# Unfortunately, ^L makes the first line disappear. We can fix that by making
-# our own clear-screen function.
-clear-screen-and-precmd() {
-  clear
-  zle redisplay
-  precmd
-}
-zle -N clear-screen-and-precmd
-
-# This is the easiest way to get a newline. SRSLY.
-local __newline="
-
-# Unicode looks cool.
-if [ "$EUID" = "0" ]; then
-  __sigil="# "
-elif `echo $LANG | grep -E -i 'utf-?8' &>/dev/null`; then
-  __sigil="〉"
-else
-  __sigil="%# "
-fi
-
-if [ -n "$SUDO_USER" ]; then
-  colorprompt '33;1'
-else
-  colorprompt
-fi
-
-# fzf via local installation
-if [ -e ~/.fzf ]; then
-  _append_to_path ~/.fzf/bin
-  source ~/.fzf/shell/key-bindings.zsh
-  source ~/.fzf/shell/completion.zsh
-fi
-
-# fzf/rg
-if _has rg; then
-  export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-fi
-
-### make sure zsh-autosuggestions does't interfere ###
-ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(expand-or-complete bracketed-paste accept-line push-line-or-edit)
-
-### .dircolors ###
-if whence dircolors >/dev/null; then
-  eval "$(dircolors -b)"
-  zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-  alias ls='ls --color'
-else
-  export CLICOLOR=1
-  zstyle ':completion:*' list-colors ''
-fi
-
-# Colors
-autoload -U colors
-colors
-
-### Aliases ###
-if [ -f ~/.aliases.zsh ]; then
-    . ~/.aliases.zsh
-fi
-
-### Functions ###
-if [ -f ~/.functions.zsh ]; then
-    . ~/.functions.zsh
-fi
-
-###################
-### Dracula Ra ###
-######$$$$$$$$$$$$$
-
-###############
-### Sheldon ###
-###############
-eval "$(sheldon source)"
-
-#############
-### Cargo ###
-#############
-source $HOME/.cargo/env
-
-################
-### Starship ###
-################
-eval "$(starship init zsh)"
-
-##############
-### Zoxide ###
-##############
-eval "$(zoxide init zsh)"
-
-################
-### Neofetch ###
-################
-neofetch
-
-# Generated for envman. Do not edit.
-[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+# Load a few important annexes, without Turbo -- this is currently required for annexes
+zinit light-mode for \                     
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-submods \
+    zdharma-continuum/zinit-annex-rust          
+#####################
+# PROMPT            #
+#####################
+zinit lucid for \
+    as"command" from"gh-r" atinit'export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"' atload'eval "$(starship init zsh)"' bpick'*unknown-linux-gnu*' \
+    starship/starship \
+    
+##########################
+# OMZ Libs and Plugins   #
+##########################
+# IMPORTANT:
+# Ohmyzsh plugins and libs are loaded first as some these sets some defaults which are required later on. Otherwise something will look messed up.
+setopt promptsubst
 
 
+# OMZL Shorthand Syntax
+zinit snippet OMZL::clipboard.zsh
+zinit snippet OMZL::termsupport.zsh
+zinit snippet OMZL::clipboard.zsh 
+zinit snippet OMZL::compfix.zsh 
+zinit snippet OMZL::completion.zsh 
+zinit snippet OMZL::correction.zsh 
+   atload"
+      alias ..='cd ..'
+      alias ...='cd ../..'
+      alias .... = 'cd ../../..'
+      alias ..... = 'cd ../../../..'" 
+zinit snippet OMZL::directories.zsh 
+zinit snippet OMZL::git.zsh 
+zinit snippet OMZL::grep.zsh 
+zinit snippet OMZL::key-bindings.zsh 
+zinit snippet OMZL::spectrum.zsh 
+zinit snippet OMZL::termsupport.zsh 
+
+## omzp snippets
+zinit snippet OMZP::extract
+zinit snippet OMZP::git
+zinit snippet OMZP::dotenv
+zinit snippet OMZP::rake
+zinit snippet OMZP::rbenv
+zinit snippet OMZP::ruby
+zinit snippet OMZP::
+
+
+### Programs 
+# junegunn/fzf-bin
+zinit pack for \
+    doctoc \
+    fzf \
+    ls_colors \
+
+# sharkdp/fd
+zinit ice as"command" from"gh-r" mv"fd* -> fd" pick"fd/fd"
+zinit light sharkdp/fd
+
+# sharkdp/bat
+zinit ice as"command" from"gh-r" mv"bat* -> bat" pick"bat/bat"
+zinit light sharkdp/bat
+
+# ogham/exa, replacement for ls
+zinit ice wait"2" lucid from"gh-r" as"program" mv"exa* -> exa"
+zinit light ogham/exa
+
+# lsd
+zinit ice wait"2" lucid from"gh-r" as"propgram" mv"lsdb:nn *
+
+# All of the above using the for-syntax and also z-a-bin-gem-node annex
+zinit wait"1" lucid from"gh-r" as"null" for \
+     sbin"fzf"          junegunn/fzf-bin \
+     sbin"**/fd"        @sharkdp/fd \
+     sbin"**/bat"       @sharkdp/bat \
+     sbin"exa* -> exa"  ogham/exa
+
+# jarun/nnn, a file browser, using the for-syntax
+zinit pick"misc/quitcd/quitcd.zsh" sbin make light-mode for \
+    jarun/nnn
+
+zinit ice as"program" atclone"rm -f src/auto/config.cache; ./configure" \
+    atpull"%atclone" make pick"src/nvim"
+zinit light neovim/neovim
+
+zinit ice as"program" make'!' atclone'./direnv hook zsh > zhook.zsh' \
+    atpull'%atclone' pick"direnv" src"zhook.zsh" for \
+        direnv/direnv
+  
+zinit ice as"program" pick"$ZPFX/sdkman/bin/sdk" id-as"sdkman" run-atpull \
+    atclone"wget https://get.sdkman.io/?rcupdate=false -O scr.sh; SDKMAN_DIR=$ZPFX/sdkman bash scr.sh" \
+    atpull"SDKMAN_DIR=$ZPFX/sdkman sdk selfupdate" \
+    atinit"export SDKMAN_DIR=$ZPFX/sdkman; source $ZPFX/sdkman/bin/sdkman-init.sh" \
+zinit light zdharma-continuum/null
+
+# Installation of Rust compiler environment via the z-a-rust annex
+zinit id-as"rust" wait=1 as=null sbin="bin/*" lucid rustup \
+    atload="[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] && zi creinstall -q rust; \
+    export CARGO_HOME="$HOME/.cargo/env"; export RUSTUP_HOME=\$PWD/rustup" for \
+        zdharma-continuum/null
+
+# Handle completions without loading any plugin, see "clist" command.
+# This one is to be ran just once, in interactive session.
+zinit creinstall %HOME/.zsh/cache/completions
+
+# Load starship theme
+zinit ice as"command" from"gh-r" \ 
+  atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \ 
+  atpull"%atclone" src"init.zsh" 
+zinit light starship/starship
+### End of Zinit's installer chunk
