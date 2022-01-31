@@ -1,6 +1,4 @@
 #!/usr/bin/env zsh     
 
-# Base zshenv delegates to files in $ZDOTDIR
-
-export ZDOTDIR=$HOME/.zsh
-[ -f $ZDOTDIR/.zshenv ] && . $ZDOTDIR/.zshenv
+ZDOTDIR=$HOME/.config/zsh/
+. $ZDOTDIR/.zshenv
